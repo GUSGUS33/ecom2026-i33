@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Bloquear rutas de administración o privadas si existieran en el futuro
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+
+# Bloquear parámetros de búsqueda para evitar contenido duplicado
+Disallow: /*?q=
+Disallow: /*?sort=
+Disallow: /*?filter=
+
+# Sitemap
+Sitemap: https://impacto33.com/sitemap.xml

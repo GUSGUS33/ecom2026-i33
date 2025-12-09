@@ -1,0 +1,9 @@
+- [ ] Ajustar Banner Hero:
+    - [ ] Limitar ancho máximo de la imagen de fondo (no estirar infinitamente).
+    - [ ] Centrar imagen de fondo.
+    - [ ] Aplicar overlay de color exacto: `rgba(0, 0, 0, 0.15)`.
+    - [ ] Replicar estructura HTML/CSS del buscador según el código proporcionado (input + botón lupa).
+    - [ ] Asegurar tipografía Montserrat para subtítulo y título.
+- [ ] Verificar responsividad:
+    - [ ] Asegurar comportamiento correcto en breakpoint 768px (md).
+    - [ ] Asegurar comportamiento correcto en breakpoint 1280px/1290px (xl).

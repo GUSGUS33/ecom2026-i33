@@ -1,0 +1,84 @@
+Análisis de Mapeo de Slugs (URL -> Slug Real)
+
+ROPA PERSONALIZADA
+/camisetas-personalizadas/ -> t_shirts (Padre: Camisetas)
+/camisetas-personalizadas/camiseta-manga-corta/ -> cam (Camisetas manga corta)
+/camisetas-personalizadas/camiseta-manga-larga/ -> cam_w (Camisetas manga larga)
+/camisetas-personalizadas/camiseta-tirantes/ -> cat (Camisetas de tirantes)
+/camisetas-personalizadas/camiseta-tecnica/ -> cam_sp (Camisetas y polos técnicos - Padre) o sp_tshi (Camisetas de deporte)
+/camisetas-personalizadas/camiseta-ecologica/ -> rolyeco (ECO)
+/camisetas-personalizadas/camiseta-deporte/ -> sp_tshi (Camisetas de deporte)
+
+/sudaderas-personalizadas/ -> sudaderas-personalizadas (NO ENCONTRADO EN DUMP, buscar alternativa)
+Posibles candidatos: highvisjackets (Sudaderas alta visibilidad), pero falta la categoría general.
+Revisando dump: No veo "Sudaderas" como categoría principal explícita en el primer nivel del dump parcial.
+Buscaré "Sudaderas" en el dump completo.
+
+/polos-personalizados/ -> pol_s (Polos)
+/polos-personalizados/polo-manga-corta/ -> short_sleeve_polo (NO ENCONTRADO, buscar alternativa)
+/polos-personalizados/polo-manga-larga/ -> long_sleeve_polo (NO ENCONTRADO, buscar alternativa)
+/polos-personalizados/polo-deportivo/ -> sp_polshi (Polos de deporte)
+
+/chaquetas-personalizadas/ -> coats (Abrigos - Padre)
+/chaquetas-personalizadas/chaqueta-softshell/ -> softshell (Softshell)
+/chaquetas-personalizadas/chaqueta-polar/ -> pol (Polares)
+/chaquetas-personalizadas/chaqueta-cortavientos/ -> windbreak (Cortavientos) o chuba (Chubasqueros)
+/chaquetas-personalizadas/abrigo/ -> subcoats (Abrigos)
+
+BOLSAS Y MOCHILAS
+/bolsas-personalizadas/ -> bags (Bolsas - Padre)
+/bolsas-personalizadas/bolsa-algodon/ -> cotton_bags (NO ENCONTRADO, buscar alternativa)
+/bolsas-personalizadas/bolsa-papel/ -> paper_bags (NO ENCONTRADO, buscar alternativa)
+/bolsas-personalizadas/bolsa-plegable/ -> folding_bags (NO ENCONTRADO, buscar alternativa)
+/bolsas-personalizadas/bolsa-yute/ -> jute_bags (NO ENCONTRADO, buscar alternativa)
+/bolsas-personalizadas/bolsa-non-woven/ -> non_woven_bags (NO ENCONTRADO, buscar alternativa)
+/bolsas-personalizadas/bolsa-botella/ -> botellas (Botellas - Conflicto con botellas de beber?)
+/bolsas-personalizadas/bolsa-viaje/ -> bags_travel (BOLSAS & VIAJE)
+/bolsas-personalizadas/bolsa-termica/ -> summer_cooler_bags (Bolsas térmicas y Neveras)
+/bolsas-personalizadas/bolsa-estanca/ -> waterproof_dry_bags (Bolsas estancas)
+
+/mochilas-personalizadas/ -> bags_travel_backpack (Mochilas)
+/mochilas-personalizadas/mochila-estandar/ -> backpacks (NO ENCONTRADO, buscar alternativa)
+/mochilas-personalizadas/mochila-escolar/ -> escolares (NO ENCONTRADO, buscar alternativa)
+/mochilas-personalizadas/mochila-portatil/ -> laptop_backpacks (NO ENCONTRADO, buscar alternativa)
+/mochilas-personalizadas/mochila-cuerdas/ -> drawstring_bags (NO ENCONTRADO, buscar alternativa)
+
+TAZAS Y BOTELLAS
+/tazas-personalizadas/ -> tazas-personalizadas (NO ENCONTRADO, buscar alternativa)
+/botellas-personalizadas/ -> bottles_thermos_flas (Bidones & Termos)
+/botellas-personalizadas/botella-aluminio/ -> aluminium_bottles (NO ENCONTRADO)
+/botellas-personalizadas/botella-termica/ -> thermos_flasks (Botellas térmicas)
+/botellas-personalizadas/botella-cristal/ -> glass_bottles (Botellas de cristal)
+
+TECNOLOGÍA
+/tecnologia-personalizada/ -> tech_accessories (Accesorios tecnológicos)
+/tecnologia-personalizada/power-bank/ -> power_bank (Power Bank)
+/tecnologia-personalizada/altavoz/ -> speakers (Altavoces)
+/tecnologia-personalizada/auriculares/ -> earphones (Auriculares) o headphones (Cascos)
+/tecnologia-personalizada/memoria-usb/ -> usb_sticks (NO ENCONTRADO)
+
+ESCRITURA
+/escritura-personalizada/ -> writing_office (ESCRITURA & OFICINA)
+/escritura-personalizada/boligrafo/ -> ball_pens (Bolígrafos)
+/escritura-personalizada/libreta/ -> notebooks (Bloc de notas)
+/escritura-personalizada/carpeta/ -> folders (NO ENCONTRADO)
+/papeleria-personalizada/agenda/ -> diaries_calendars (Agendas & Calendarios)
+
+HOGAR
+/hogar-personalizado/ -> hogar-personalizado (NO ENCONTRADO)
+/hogar-personalizado/cocina/ -> kitchen (Accesorios de cocina)
+/hogar-personalizado/decoracion/ -> decoration (Decoración)
+/hogar-personalizado/manta/ -> mantas (NO ENCONTRADO)
+/hogar-personalizado/vela/ -> velas (NO ENCONTRADO)
+
+EVENTOS
+/eventos-personalizados/ -> eventos-personalizados (NO ENCONTRADO)
+/eventos-personalizados/lanyard/ -> lanyards_badge_holde (Lanyard e Identificadores)
+/eventos-personalizados/chapa/ -> chapas (NO ENCONTRADO)
+/eventos-personalizados/pulsera/ -> bracelets (Pulseras)
+
+VERANO
+/verano-personalizado/ -> verano-personalizado (NO ENCONTRADO)
+/verano-personalizado/toalla-playa/ -> towels_sarong (Toallas y Pareos)
+/verano-personalizado/sombrilla-playa/ -> summer_umbrellas (Sombrillas y sillas)
+/verano-personalizado/gafas-sol/ -> gafas-sol (NO ENCONTRADO)

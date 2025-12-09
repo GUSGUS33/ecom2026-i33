@@ -1,0 +1,942 @@
+[
+  {
+    "name": "Abanicos & Pañuelos",
+    "slug": "hats_bands_scarves"
+  },
+  {
+    "name": "Abridores y Accesorios",
+    "slug": "openers_accessories"
+  },
+  {
+    "name": "Abrigos",
+    "slug": "w_coats"
+  },
+  {
+    "name": "Abrigos",
+    "slug": "subcoats"
+  },
+  {
+    "name": "Abrigos",
+    "slug": "coats"
+  },
+  {
+    "name": "Accesorios",
+    "slug": "sport_accessories"
+  },
+  {
+    "name": "Accesorios",
+    "slug": "acc"
+  },
+  {
+    "name": "Accesorios",
+    "slug": "accessories_travel"
+  },
+  {
+    "name": "Accesorios de coche",
+    "slug": "car_accessories"
+  },
+  {
+    "name": "Accesorios de cocina",
+    "slug": "kitchen"
+  },
+  {
+    "name": "Accesorios de oficina",
+    "slug": "office_accessories"
+  },
+  {
+    "name": "Accesorios de viaje",
+    "slug": "travel_accessories"
+  },
+  {
+    "name": "Accesorios mascotas",
+    "slug": "pets_accessories"
+  },
+  {
+    "name": "Accesorios outdoor",
+    "slug": "acc_outdoor"
+  },
+  {
+    "name": "Accesorios Take Away",
+    "slug": "take_away"
+  },
+  {
+    "name": "Accesorios tecnológicos",
+    "slug": "tech_accessories"
+  },
+  {
+    "name": "Adaptadores de viaje",
+    "slug": "travel_adaptors"
+  },
+  {
+    "name": "Adornos",
+    "slug": "decorations"
+  },
+  {
+    "name": "Agendas & Calendarios",
+    "slug": "diaries_calendars"
+  },
+  {
+    "name": "Alfombrilla",
+    "slug": "mouse_pad"
+  },
+  {
+    "name": "Alta visibilidad",
+    "slug": "highviz"
+  },
+  {
+    "name": "Altavoces",
+    "slug": "speakers"
+  },
+  {
+    "name": "Animación",
+    "slug": "cheering"
+  },
+  {
+    "name": "Antiestrés",
+    "slug": "stress_relievers"
+  },
+  {
+    "name": "Aplaudidores y silbatos",
+    "slug": "clappers_whistles"
+  },
+  {
+    "name": "Artículos de playa",
+    "slug": "beach_items"
+  },
+  {
+    "name": "Audio y sonido",
+    "slug": "sound"
+  },
+  {
+    "name": "Auriculares",
+    "slug": "earphones"
+  },
+  {
+    "name": "Bálsamos",
+    "slug": "lip_balms"
+  },
+  {
+    "name": "Bañadores",
+    "slug": "bdr"
+  },
+  {
+    "name": "Banderines",
+    "slug": "small_flags"
+  },
+  {
+    "name": "Barbacoa",
+    "slug": "barbacue"
+  },
+  {
+    "name": "Báscula",
+    "slug": "weighing_scales"
+  },
+  {
+    "name": "Básicos",
+    "slug": "basic"
+  },
+  {
+    "name": "Bata",
+    "slug": "sanitarybata"
+  },
+  {
+    "name": "Bata y casulla",
+    "slug": "foodindustrybata"
+  },
+  {
+    "name": "Bidones & Termos",
+    "slug": "bottles_thermos_flas"
+  },
+  {
+    "name": "Bidones deportivos",
+    "slug": "sports_bottles"
+  },
+  {
+    "name": "Bloc de notas",
+    "slug": "notebooks"
+  },
+  {
+    "name": "Bolígrafos",
+    "slug": "ball_pens"
+  },
+  {
+    "name": "Bolsas",
+    "slug": "sub_bags"
+  },
+  {
+    "name": "Bolsas",
+    "slug": "bags"
+  },
+  {
+    "name": "Bolsas & neveras",
+    "slug": "bags_coolers"
+  },
+  {
+    "name": "BOLSAS & VIAJE",
+    "slug": "bags_travel"
+  },
+  {
+    "name": "Bolsas estancas",
+    "slug": "waterproof_dry_bags"
+  },
+  {
+    "name": "Bolsas térmicas y Neveras",
+    "slug": "summer_cooler_bags"
+  },
+  {
+    "name": "Botellas",
+    "slug": "bottles"
+  },
+  {
+    "name": "Botellas de cristal",
+    "slug": "glass_bottles"
+  },
+  {
+    "name": "Botellas térmicas",
+    "slug": "thermos_flasks"
+  },
+  {
+    "name": "Bragas de cuello",
+    "slug": "neckwarmer"
+  },
+  {
+    "name": "Calentador de tazas",
+    "slug": "cup_warmer"
+  },
+  {
+    "name": "Calzado Laboral",
+    "slug": "foot_wrk"
+  },
+  {
+    "name": "Camisas",
+    "slug": "horecacamisas"
+  },
+  {
+    "name": "Camisetas",
+    "slug": "t_shirts"
+  },
+  {
+    "name": "Camisetas",
+    "slug": "camisetas"
+  },
+  {
+    "name": "Camisetas alta visibilidad",
+    "slug": "highvistshirts"
+  },
+  {
+    "name": "Camisetas de deporte",
+    "slug": "sp_tshi"
+  },
+  {
+    "name": "Camisetas de tirantes",
+    "slug": "cat"
+  },
+  {
+    "name": "Camisetas ignífugas",
+    "slug": "industrytshirts"
+  },
+  {
+    "name": "Camisetas industria",
+    "slug": "serviciostshirts"
+  },
+  {
+    "name": "Camisetas manga corta",
+    "slug": "cam"
+  },
+  {
+    "name": "Camisetas manga corta",
+    "slug": "camisetas-manga-corta"
+  },
+  {
+    "name": "Camisetas manga larga",
+    "slug": "cam_w"
+  },
+  {
+    "name": "Camisetas y polos",
+    "slug": "cam_po"
+  },
+  {
+    "name": "Camisetas y polos técnicos",
+    "slug": "cam_sp"
+  },
+  {
+    "name": "Cargador inalámbrico",
+    "slug": "wireless_charger"
+  },
+  {
+    "name": "Cargador para el coche",
+    "slug": "car_charger"
+  },
+  {
+    "name": "Cargadores",
+    "slug": "chargers"
+  },
+  {
+    "name": "Casaca",
+    "slug": "sanitarycasaca"
+  },
+  {
+    "name": "Cascos",
+    "slug": "headphones"
+  },
+  {
+    "name": "Cepillo de Dientes",
+    "slug": "toothbrushes"
+  },
+  {
+    "name": "Chalecos",
+    "slug": "servicioschalecos"
+  },
+  {
+    "name": "Chalecos",
+    "slug": "highvischalecos"
+  },
+  {
+    "name": "Chalecos",
+    "slug": "cha"
+  },
+  {
+    "name": "Chanclas y Gorras",
+    "slug": "flipflop_caps"
+  },
+  {
+    "name": "Chándals",
+    "slug": "chnd"
+  },
+  {
+    "name": "Chaqueta de HORECA",
+    "slug": "horecachaqueta"
+  },
+  {
+    "name": "Chaquetas ignífugas",
+    "slug": "industryjackets"
+  },
+  {
+    "name": "Chaquetas industria",
+    "slug": "servicioschaqutas"
+  },
+  {
+    "name": "Chaquetas Polares alta visibilidad",
+    "slug": "highvischaquetas"
+  },
+  {
+    "name": "christmas",
+    "slug": "christmas"
+  },
+  {
+    "name": "Chubasqueros",
+    "slug": "raincoats"
+  },
+  {
+    "name": "Chubasqueros",
+    "slug": "chuba"
+  },
+  {
+    "name": "Coctelería",
+    "slug": "home_cocktail"
+  },
+  {
+    "name": "Cofia y gorro",
+    "slug": "foodindustrygorro"
+  },
+  {
+    "name": "Congresos & Ferias",
+    "slug": "conferences_fairs"
+  },
+  {
+    "name": "Cortavientos",
+    "slug": "windbreak"
+  },
+  {
+    "name": "Cubiertos y Pajitas",
+    "slug": "cutlery_straws"
+  },
+  {
+    "name": "Cuidado Personal",
+    "slug": "selfcare"
+  },
+  {
+    "name": "Decoración",
+    "slug": "decoration"
+  },
+  {
+    "name": "Decoración & Entretenimiento",
+    "slug": "decoration_games"
+  },
+  {
+    "name": "Delantal",
+    "slug": "horecadelantal"
+  },
+  {
+    "name": "Delantales y Manoplas",
+    "slug": "aprons_mitts"
+  },
+  {
+    "name": "DEPORTE & CUIDADO PERSONAL",
+    "slug": "sport_selfcare"
+  },
+  {
+    "name": "Deporte & Ocio",
+    "slug": "sport_leisure"
+  },
+  {
+    "name": "Diversión",
+    "slug": "fun"
+  },
+  {
+    "name": "ECO",
+    "slug": "rolyeco"
+  },
+  {
+    "name": "Equipaciones",
+    "slug": "equip"
+  },
+  {
+    "name": "Escritura",
+    "slug": "writing"
+  },
+  {
+    "name": "ESCRITURA & OFICINA",
+    "slug": "writing_office"
+  },
+  {
+    "name": "Espejos",
+    "slug": "pocket_mirrors"
+  },
+  {
+    "name": "Estación metereológica",
+    "slug": "weather_station"
+  },
+  {
+    "name": "Estuches",
+    "slug": "pencil_cases"
+  },
+  {
+    "name": "Fiambreras",
+    "slug": "lunch_boxes"
+  },
+  {
+    "name": "FIESTAS & EVENTOS",
+    "slug": "party"
+  },
+  {
+    "name": "Fitness",
+    "slug": "fitness"
+  },
+  {
+    "name": "FOOTWEAR",
+    "slug": "footwear"
+  },
+  {
+    "name": "Frío",
+    "slug": "cold"
+  },
+  {
+    "name": "Fundas de gafas",
+    "slug": "sunglasses_pouches"
+  },
+  {
+    "name": "Gafas de sol",
+    "slug": "subsunglasses"
+  },
+  {
+    "name": "Gafas de sol",
+    "slug": "sunglasses"
+  },
+  {
+    "name": "Gorras",
+    "slug": "gor"
+  },
+  {
+    "name": "Gorras",
+    "slug": "travel_caps"
+  },
+  {
+    "name": "Gorro",
+    "slug": "sanitarygorro"
+  },
+  {
+    "name": "Gorros",
+    "slug": "hats"
+  },
+  {
+    "name": "Gorros",
+    "slug": "christmas_hats"
+  },
+  {
+    "name": "Guantes",
+    "slug": "gloves"
+  },
+  {
+    "name": "Herramientas",
+    "slug": "tools"
+  },
+  {
+    "name": "HERRAMIENTAS & MASCOTAS",
+    "slug": "tools_pets"
+  },
+  {
+    "name": "Higiene y cosmética",
+    "slug": "cosmetic"
+  },
+  {
+    "name": "HOGAR & REGALOS",
+    "slug": "home_gifts"
+  },
+  {
+    "name": "HORECA",
+    "slug": "horeca"
+  },
+  {
+    "name": "Industria - Ignífugos",
+    "slug": "fire_retardant"
+  },
+  {
+    "name": "Industria - Servicios",
+    "slug": "industry_services"
+  },
+  {
+    "name": "Industria alimentaria",
+    "slug": "food"
+  },
+  {
+    "name": "Infantil",
+    "slug": "items_childrens"
+  },
+  {
+    "name": "INVIERNO & DÍAS DE LLUVIA",
+    "slug": "winter"
+  },
+  {
+    "name": "Jarras",
+    "slug": "jars"
+  },
+  {
+    "name": "Juegos",
+    "slug": "games"
+  },
+  {
+    "name": "Lanyard e Identificadores",
+    "slug": "lanyards_badge_holde"
+  },
+  {
+    "name": "Lápices",
+    "slug": "pencils"
+  },
+  {
+    "name": "Leggins y mallas",
+    "slug": "leggins"
+  },
+  {
+    "name": "Llaveros",
+    "slug": "keyrings"
+  },
+  {
+    "name": "Lluvia",
+    "slug": "rain"
+  },
+  {
+    "name": "Maleta & Trolley",
+    "slug": "trolley"
+  },
+  {
+    "name": "Mantas",
+    "slug": "blankets"
+  },
+  {
+    "name": "Memoria USB",
+    "slug": "usb_flash_drivers"
+  },
+  {
+    "name": "Mochila de cuerdas",
+    "slug": "drawstring_bag"
+  },
+  {
+    "name": "Mochilas",
+    "slug": "subbackpacks"
+  },
+  {
+    "name": "Mochilas",
+    "slug": "moc"
+  },
+  {
+    "name": "Mochilas",
+    "slug": "bags_travel_backpack"
+  },
+  {
+    "name": "Mochilas",
+    "slug": "writing_office_backp"
+  },
+  {
+    "name": "Monederos y Riñoneras",
+    "slug": "purses_belt_pouches"
+  },
+  {
+    "name": "Monos - ignífugos",
+    "slug": "industrymonos"
+  },
+  {
+    "name": "Monos - industria",
+    "slug": "serviciosmonos"
+  },
+  {
+    "name": "Multifunción",
+    "slug": "technology_multifunc"
+  },
+  {
+    "name": "Multifunciones",
+    "slug": "writing_office_multi"
+  },
+  {
+    "name": "Neceser",
+    "slug": "toliet_bag"
+  },
+  {
+    "name": "Neveras",
+    "slug": "subcooler_bags"
+  },
+  {
+    "name": "Neveras",
+    "slug": "cooler_bags"
+  },
+  {
+    "name": "NOVEDADES",
+    "slug": "novelty"
+  },
+  {
+    "name": "NOVEDADES",
+    "slug": "novelty_roly"
+  },
+  {
+    "name": "Organizador maletero",
+    "slug": "car_trunk_organizer"
+  },
+  {
+    "name": "Otros productos",
+    "slug": "other_products"
+  },
+  {
+    "name": "OUTDOOR",
+    "slug": "outdoor"
+  },
+  {
+    "name": "Outlet",
+    "slug": "outlet"
+  },
+  {
+    "name": "Pantalón largo - HORECA",
+    "slug": "horecapantalon"
+  },
+  {
+    "name": "Pantalón largo - Ind. Alimentaria",
+    "slug": "foodpantalon"
+  },
+  {
+    "name": "Pantalón largo - Sanidad y Estética",
+    "slug": "sanitarypantalon"
+  },
+  {
+    "name": "Pantalones",
+    "slug": "pant_c"
+  },
+  {
+    "name": "Pantalones alta visibilidad",
+    "slug": "highvispantalones"
+  },
+  {
+    "name": "Pantalones cortos",
+    "slug": "serviciospantalones"
+  },
+  {
+    "name": "Pantalones cortos",
+    "slug": "sh_pant"
+  },
+  {
+    "name": "Pantalones deportivos",
+    "slug": "pd"
+  },
+  {
+    "name": "Pantalones ignífugos",
+    "slug": "industrypantalon"
+  },
+  {
+    "name": "Pantalones largos",
+    "slug": "lo_pant"
+  },
+  {
+    "name": "Pantalones largos Industria",
+    "slug": "serviciospantalones_"
+  },
+  {
+    "name": "Paraguas",
+    "slug": "umbrellas"
+  },
+  {
+    "name": "Parasoles",
+    "slug": "sun_shields"
+  },
+  {
+    "name": "Parka alta visibilidad",
+    "slug": "highviscoats"
+  },
+  {
+    "name": "Pastillero",
+    "slug": "pillboxes"
+  },
+  {
+    "name": "Peine",
+    "slug": "peine"
+  },
+  {
+    "name": "Polares",
+    "slug": "pol"
+  },
+  {
+    "name": "Polos",
+    "slug": "pol_s"
+  },
+  {
+    "name": "Polos - ignífugos",
+    "slug": "industrypolos"
+  },
+  {
+    "name": "Polos - industria",
+    "slug": "serviciospolos"
+  },
+  {
+    "name": "Polos Alta visibilidad",
+    "slug": "highvispolo"
+  },
+  {
+    "name": "Polos de deporte",
+    "slug": "sp_polshi"
+  },
+  {
+    "name": "Polos manga corta",
+    "slug": "pmc"
+  },
+  {
+    "name": "Polos manga larga",
+    "slug": "pol_w"
+  },
+  {
+    "name": "Portadocumentos",
+    "slug": "document_holders"
+  },
+  {
+    "name": "Portanotas",
+    "slug": "office_accessories_n"
+  },
+  {
+    "name": "Portatodo",
+    "slug": "multipurpose_bags"
+  },
+  {
+    "name": "Posavasos",
+    "slug": "coasters"
+  },
+  {
+    "name": "Power Bank",
+    "slug": "power_bank"
+  },
+  {
+    "name": "Protección Higiénica",
+    "slug": "hygienic_protection"
+  },
+  {
+    "name": "Puerto USB",
+    "slug": "usb_port"
+  },
+  {
+    "name": "Pulsera de actividad",
+    "slug": "activity_bracelet"
+  },
+  {
+    "name": "Pulseras",
+    "slug": "bracelets"
+  },
+  {
+    "name": "Ratón",
+    "slug": "mouse"
+  },
+  {
+    "name": "Reloj despertador",
+    "slug": "alarm_clock"
+  },
+  {
+    "name": "Relojes Actividad",
+    "slug": "activity_trackers"
+  },
+  {
+    "name": "Roly Control Dry",
+    "slug": "c_dry"
+  },
+  {
+    "name": "Ropa interior",
+    "slug": "inw"
+  },
+  {
+    "name": "Ropa térmica",
+    "slug": "winter_shirts"
+  },
+  {
+    "name": "Saco de dormir y sillas",
+    "slug": "sleep_chair"
+  },
+  {
+    "name": "Sanidad y Estética",
+    "slug": "san_est"
+  },
+  {
+    "name": "Set de Quesos y Vinos",
+    "slug": "cheese_wine"
+  },
+  {
+    "name": "Set manicura",
+    "slug": "set_manicura"
+  },
+  {
+    "name": "Sets",
+    "slug": "sets"
+  },
+  {
+    "name": "Sin categorizar",
+    "slug": "sin-categorizar"
+  },
+  {
+    "name": "Smartwatch",
+    "slug": "smartwatch"
+  },
+  {
+    "name": "Softshell",
+    "slug": "softshell"
+  },
+  {
+    "name": "Softshell alta visibilidad",
+    "slug": "highvissoftshell"
+  },
+  {
+    "name": "Sombreros & Cintas",
+    "slug": "hats_bands"
+  },
+  {
+    "name": "Sombrillas y sillas",
+    "slug": "summer_umbrellas"
+  },
+  {
+    "name": "Soportes móviles",
+    "slug": "mobile_supports"
+  },
+  {
+    "name": "SPECIAL PACKAGING",
+    "slug": "special_pack"
+  },
+  {
+    "name": "Sport collection",
+    "slug": "sports"
+  },
+  {
+    "name": "SUBLIMACIÓN",
+    "slug": "sublimation"
+  },
+  {
+    "name": "Sudadera",
+    "slug": "swe"
+  },
+  {
+    "name": "Sudaderas",
+    "slug": "winter_sweatshirts"
+  },
+  {
+    "name": "Sudaderas",
+    "slug": "sud_cha"
+  },
+  {
+    "name": "Sudaderas",
+    "slug": "sudaderas"
+  },
+  {
+    "name": "Sudaderas alta visibilidad",
+    "slug": "highvisjackets"
+  },
+  {
+    "name": "Sudaderas con capucha",
+    "slug": "swe_h"
+  },
+  {
+    "name": "Sudaderas con capucha",
+    "slug": "sudaderas-con-capucha"
+  },
+  {
+    "name": "Sudaderas industria servicios",
+    "slug": "serviciossudaderas"
+  },
+  {
+    "name": "Sudaderas sin capucha",
+    "slug": "swe_sh"
+  },
+  {
+    "name": "Tablas de cortar",
+    "slug": "chopping_boards"
+  },
+  {
+    "name": "Tapa webcam",
+    "slug": "webcam_cover"
+  },
+  {
+    "name": "Tazas",
+    "slug": "submugs"
+  },
+  {
+    "name": "Tazas",
+    "slug": "mugs"
+  },
+  {
+    "name": "TAZAS, BIDONES & MENAJE",
+    "slug": "eating_drinkware"
+  },
+  {
+    "name": "TECNOLOGÍA",
+    "slug": "technology"
+  },
+  {
+    "name": "textiles",
+    "slug": "textiles"
+  },
+  {
+    "name": "Toallas y Pareos",
+    "slug": "towels_sarong"
+  },
+  {
+    "name": "Trofeos",
+    "slug": "trophies"
+  },
+  {
+    "name": "USB",
+    "slug": "usb"
+  },
+  {
+    "name": "USB STOCK",
+    "slug": "usb_stock"
+  },
+  {
+    "name": "Vasos",
+    "slug": "cups"
+  },
+  {
+    "name": "Velas",
+    "slug": "candles"
+  },
+  {
+    "name": "VERANO",
+    "slug": "summer"
+  },
+  {
+    "name": "Winter Sport",
+    "slug": "wint_sp"
+  },
+  {
+    "name": "WORKWEAR",
+    "slug": "workwear"
+  }
+]

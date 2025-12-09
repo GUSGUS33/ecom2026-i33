@@ -1,0 +1,278 @@
+import { useParams, Link } from "wouter";
+import { DynamicProductBlock } from "@/components/DynamicProductBlock";
+import { RelatedCategories } from "@/components/RelatedCategories";
+import { ProductFilters } from "@/components/ProductFilters";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
+import { ChevronRight, Home } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import { SeoContentBlock } from "@/components/SeoContentBlock";
+import { SeoCategoryData, SeoDataMap } from "@shared/types";
+// import seoDataRaw from "@/data/seo-data.json";
+import dynamicBlocks from "@/data/dynamic-blocks.json";
+
+// Cast imported JSON to typed map
+// const seoData = seoDataRaw as SeoDataMap;
+import { useState, useEffect } from "react";
+
+export default function CategoryPage() {
+  const params = useParams();
+  
+  // Determine current slug from URL params
+  // Route: /:category, /:category/:subcategory, or /:category/:subcategory/:child
+  // We need to match the slug key in seo-data.json
+  // Priority: child > subcategory > category
+  const categorySlug = params.child || params.subcategory || params.category;
+  
+  // Find category data
+  const [categoryData, setCategoryData] = useState<SeoCategoryData | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState<any>({});
+
+  useEffect(() => {
+    async function loadCategoryData() {
+      if (!categorySlug) return;
+      
+      setLoading(true);
+      try {
+        // Intentar cargar el JSON específico de la categoría
+        const module = await import(`../data/categories/${categorySlug}.json`);
+        setCategoryData(module.default as SeoCategoryData);
+      } catch (error) {
+        console.error(`Error loading category data for ${categorySlug}:`, error);
+        setCategoryData(undefined);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCategoryData();
+  }, [categorySlug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (!categoryData) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">Categoría no encontrada</h1>
+        <p className="text-slate-500 mb-8">Lo sentimos, no hemos podido encontrar la categoría que buscas.</p>
+        <Link href="/">
+          <span className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors cursor-pointer">
+            Volver al inicio
+          </span>
+        </Link>
+      </div>
+    );
+  }
+
+  // Find dynamic block configuration for products
+  // Normalize URLs by removing trailing slashes for comparison
+  const normalizeUrl = (url: string) => url.endsWith('/') ? url.slice(0, -1) : url;
+  const currentUrl = normalizeUrl(categoryData.url);
+  
+  const blockConfig = dynamicBlocks.find(block => normalizeUrl(block.url) === currentUrl);
+  const catalogSlug = blockConfig ? blockConfig.catalog_category_slug : categoryData.slug;
+
+
+
+  return (
+    <>
+      <Helmet>
+        <title>{categoryData.meta_title}</title>
+        <meta name="description" content={categoryData.meta_description} />
+        <link rel="canonical" href={`https://impacto33.com${categoryData.url}`} />
+        
+        {/* Schema Markup: BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Inicio",
+                "item": "https://impacto33.com/"
+              },
+              ...(categoryData.parent_slug ? [{
+                "@type": "ListItem",
+                "position": 2,
+                "name": categoryData.parent_slug.replace(/-/g, ' '),
+                "item": `https://impacto33.com/${categoryData.parent_slug}/`
+              }] : []),
+              {
+                "@type": "ListItem",
+                "position": categoryData.parent_slug ? 3 : 2,
+                "name": categoryData.hero_tituloPrincipal,
+                "item": `https://impacto33.com${categoryData.url}`
+              }
+            ]
+          })}
+        </script>
+
+        {/* Schema Markup: FAQPage */}
+        {categoryData.faq && categoryData.faq.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": categoryData.faq.map(item => ({
+                "@type": "Question",
+                "name": item.pregunta,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": item.respuesta
+                }
+              }))
+            })}
+          </script>
+        )}
+      </Helmet>
+
+      <div className="bg-white min-h-screen">
+        {/* Breadcrumbs */}
+        <div className="bg-slate-50 border-b border-slate-200">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center text-sm text-slate-500">
+                    <Link href="/">
+                <span className="flex items-center hover:text-blue-600 transition-colors cursor-pointer">
+                  <Home size={14} className="mr-1" />
+                  Inicio
+                </span>
+              </Link>
+              <ChevronRight size={14} className="mx-2 text-slate-300" />
+              {/* Breadcrumb logic for 3 levels */}
+              {/* If we have a child param, we might need to reconstruct the path manually or rely on parent_slug from JSON */}
+              {/* Ideally, the JSON should contain the full hierarchy or we infer it from URL params */}
+              
+              {params.category && params.subcategory && params.child && (
+                <>
+                  <Link href={`/${params.category}`}>
+                    <span className="hover:text-blue-600 transition-colors capitalize cursor-pointer">
+                      {params.category.replace(/-/g, ' ')}
+                    </span>
+                  </Link>
+                  <ChevronRight size={14} className="mx-2 text-slate-300" />
+                  <Link href={`/${params.category}/${params.subcategory}`}>
+                    <span className="hover:text-blue-600 transition-colors capitalize cursor-pointer">
+                      {params.subcategory.replace(/-/g, ' ')}
+                    </span>
+                  </Link>
+                  <ChevronRight size={14} className="mx-2 text-slate-300" />
+                </>
+              )}
+
+              {params.category && params.subcategory && !params.child && (
+                 <>
+                  <Link href={`/${params.category}`}>
+                    <span className="hover:text-blue-600 transition-colors capitalize cursor-pointer">
+                      {params.category.replace(/-/g, ' ')}
+                    </span>
+                  </Link>
+                  <ChevronRight size={14} className="mx-2 text-slate-300" />
+                </>
+              )}
+              <span className="font-semibold text-slate-900 capitalize">
+                {categoryData.slug.replace(/-/g, ' ')}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 1. Hero Title & 2. Intro (Rendered by SeoContentBlock) */}
+        {/* 3. Hub Subcategorías (Rendered by SeoContentBlock) */}
+        {/* 5. Ventajas Empresa (Rendered by SeoContentBlock) */}
+        {/* 6. Casos de Uso (Rendered by SeoContentBlock) */}
+        {/* 7. FAQ (Rendered by SeoContentBlock) */}
+        {/* 8. Texto Final & 9. CTA (Rendered by SeoContentBlock) */}
+        
+        {/* We need to interleave the Product Block (4) inside the flow */}
+        {/* Since SeoContentBlock is monolithic, we might need to split it or pass the product block as children/prop */}
+        {/* For now, let's render SeoContentBlock but inject the product block in the middle if we refactor SeoContentBlock */}
+        {/* OR: We can render the top part, then products, then bottom part. */}
+        
+        {/* Let's modify SeoContentBlock to accept children for the product grid position */}
+        
+        <div className="space-y-16 py-12">
+          
+          {/* Blocks 1, 2, 3 */}
+          <section className="text-center max-w-4xl mx-auto px-4">
+            <h1 className="text-[32px] font-bold text-[#48475c] mb-6 font-['Montserrat'] leading-tight first-letter:uppercase lowercase">
+              {categoryData.hero_tituloPrincipal}
+            </h1>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-3xl mx-auto">
+              {categoryData.hero_intro}
+            </p>
+          </section>
+
+          {/* Interlinking Contextual (Madre/Hijas) */}
+          <RelatedCategories currentUrl={currentUrl} />
+
+          {/* 4. Dynamic Products Block with Sidebar */}
+          <section className="container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Sidebar Desktop */}
+              <aside className="hidden lg:block w-64 flex-shrink-0">
+                <div className="sticky top-24">
+                  <ProductFilters 
+                    onFilterChange={setFilters}
+                    // TODO: Pasar atributos reales desde GraphQL cuando el backend lo soporte
+                    attributes={[]}
+                  />
+                </div>
+              </aside>
+
+              {/* Mobile Filter Trigger */}
+              <div className="lg:hidden mb-4">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+                      <Filter size={16} />
+                      Filtrar Productos
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                    <div className="py-4">
+                      <ProductFilters 
+                        onFilterChange={setFilters}
+                        attributes={[]}
+                      />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+
+              {/* Product Grid */}
+              <div className="flex-1">
+                <DynamicProductBlock 
+                  categorySlug={catalogSlug} 
+                  limit={blockConfig?.limit || 24} 
+                  columns={3} // Reducimos columnas a 3 para acomodar el sidebar
+                  filters={{
+                    minPrice: filters.price?.[0],
+                    maxPrice: filters.price?.[1],
+                    attributes: filters.attributes
+                  }}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Remaining Blocks handled by SeoContentBlock (partial render or full if we didn't split manually above) */}
+          {/* To avoid duplication, we should use the components from SeoContentBlock or refactor it to be more granular. */}
+          {/* For this iteration, I will render the rest of the content using the SeoContentBlock component but I'll modify it to optionally skip the header parts if already rendered. */}
+          {/* Actually, let's just use the SeoContentBlock for the bottom half to keep it clean. */}
+          
+          <SeoContentBlock data={categoryData} />
+        </div>
+      </div>
+    </>
+  );
+}

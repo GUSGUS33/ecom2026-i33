@@ -1,0 +1,93 @@
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Route, Switch } from "wouter";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { ApolloProvider } from "@apollo/client/react";
+import { client } from "./lib/apollo";
+import { HelmetProvider } from "react-helmet-async";
+import { MainLayout } from "./layouts/MainLayout";
+import { lazy, Suspense } from "react";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("./pages/Home"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const ProductPage = lazy(() => import("./pages/ProductPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const QuotePage = lazy(() => import("./pages/QuotePage"));
+const InfoPage = lazy(() => import("./pages/InfoPage"));
+const ServicePage = lazy(() => import("./pages/ServicePage"));
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-[60vh] flex items-center justify-center">
+    <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
+
+function Router() {
+  return (
+    <MainLayout>
+      <Suspense fallback={<PageLoader />}>
+        <Switch>
+          <Route path="/" component={Home} />
+          
+          {/* Rutas de Producto - IMPORTANTE: Definir antes de las categorías genéricas para evitar conflictos */}
+          <Route path="/producto/:slug" component={ProductPage} />
+
+          {/* Rutas Legales e Info - IMPORTANTE: Definir ANTES de las rutas dinámicas de categorías */}
+          <Route path="/contacto" component={ContactPage} />
+          <Route path="/presupuesto-rapido" component={QuotePage} />
+          
+          {/* Rutas de Servicios */}
+          <Route path="/servicios/:slug" component={ServicePage} />
+
+          {/* Páginas de Información Estáticas */}
+          <Route path="/quienes-somos" component={InfoPage} />
+          <Route path="/plazos-de-entrega" component={InfoPage} />
+          <Route path="/enviar-archivos" component={InfoPage} />
+          <Route path="/formas-de-pago" component={InfoPage} />
+          <Route path="/tarifa-portes" component={InfoPage} />
+          <Route path="/precios" component={InfoPage} />
+          <Route path="/garantia-de-calidad" component={InfoPage} />
+          <Route path="/trabajos-realizados" component={InfoPage} />
+          <Route path="/marcas" component={InfoPage} />
+          <Route path="/condiciones-generales" component={InfoPage} />
+          <Route path="/politica-privacidad" component={InfoPage} />
+          <Route path="/cookies" component={InfoPage} />
+          <Route path="/aviso-legal" component={InfoPage} />
+          <Route path="/preguntas-frecuentes" component={InfoPage} />
+          <Route path="/blog" component={InfoPage} />
+
+          {/* Rutas de Categorías Transaccionales */}
+          {/* Captura /categoria/, /categoria/subcategoria/ y /categoria/subcategoria/child/ */}
+          <Route path="/:category" component={CategoryPage} />
+          <Route path="/:category/:subcategory" component={CategoryPage} />
+          <Route path="/:category/:subcategory/:child" component={CategoryPage} />
+          
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    </MainLayout>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <ApolloProvider client={client}>
+        <HelmetProvider>
+          <ThemeProvider defaultTheme="light">
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </ThemeProvider>
+        </HelmetProvider>
+      </ApolloProvider>
+    </ErrorBoundary>
+  );
+}
+
+export default App;
