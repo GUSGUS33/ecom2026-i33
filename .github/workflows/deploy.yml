@@ -1,0 +1,50 @@
+name: Deploy React to Plesk
+
+on:
+  push:
+    branches:
+      - main  # O 'master', revisa cómo se llama tu rama principal
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Descargar el código
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    # 2. Instalar Node.js (Usamos la v20 para compatibilidad con React 19)
+    - name: 🟢 Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # 3. Instalar dependencias (Con el fix para tu error ERESOLVE)
+    - name: 📦 Install dependencies
+      run: npm install --legacy-peer-deps
+
+# 4. Construir el sitio
+    - name: 🏗️ Build project
+      # AGREGA ESTO: Inyectamos las variables para que Vite las vea
+      env:
+        VITE_ANALYTICS_ENDPOINT: ${{ secrets.VITE_ANALYTICS_ENDPOINT }}
+        VITE_GRAPHQL_URI: ${{ secrets.VITE_GRAPHQL_URI }}
+      run: npm run build
+
+# 5. Subir a Plesk via SFTP (Puerto 22)
+    - name: 📂 SFTP Deploy
+      uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      with:
+        username: ${{ secrets.FTP_USERNAME }}
+        server: ${{ secrets.FTP_SERVER }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        
+        # Sube el contenido de dist
+        local_path: './dist/*'
+        
+        # CAMBIO CRUCIAL: 'httpdocs/' sin la barra al inicio
+        remote_path: 'httpdocs/'
+        
+        # Corrección del nombre del argumento (sftpArgs)
+        sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
