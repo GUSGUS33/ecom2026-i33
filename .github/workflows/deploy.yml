@@ -48,3 +48,5 @@ jobs:
         
         # Corrección del nombre del argumento (sftpArgs)
         sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
+        
+        
