@@ -216,10 +216,6 @@
     "slug": "t_shirts"
   },
   {
-    "name": "Camisetas",
-    "slug": "camisetas"
-  },
-  {
     "name": "Camisetas alta visibilidad",
     "slug": "highvistshirts"
   },
@@ -444,6 +440,11 @@
     "slug": "sunglasses"
   },
   {
+    "name": "Parches térmicos",
+    "slug": "gel_pack",
+    "notes": "FALTABA - Aparece en menú STM"
+  },
+  {
     "name": "Gorras",
     "slug": "gor"
   },
@@ -534,6 +535,11 @@
   {
     "name": "Lluvia",
     "slug": "rain"
+  },
+  {
+    "name": "Localizador",
+    "slug": "findmy",
+    "notes": "FALTABA - Aparece en menú STM (FindMy)"
   },
   {
     "name": "Maleta & Trolley",
