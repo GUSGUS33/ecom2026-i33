@@ -221,6 +221,23 @@ export default function CategoryPage() {
           {/* Interlinking Contextual (Madre/Hijas) */}
           <RelatedCategories currentUrl={currentUrl} />
 
+          {/* Subcategorías Visuales (Nuevo JSON) */}
+          {categoryData.subcategories && categoryData.subcategories.length > 0 && (
+            <section className="container mx-auto px-4 mb-12">
+              <h2 className="text-xl font-bold text-slate-900 mb-6">{categoryData.hub_subcategorias_texto || "Explora nuestras categorías"}</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                {categoryData.subcategories.map((sub, idx) => (
+                  <Link key={idx} href={sub.url}>
+                    <div className="bg-slate-50 hover:bg-white border border-slate-200 hover:border-blue-500 rounded-xl p-4 transition-all cursor-pointer h-full group">
+                      <h3 className="font-bold text-slate-800 group-hover:text-blue-600 mb-2 text-sm">{sub.title}</h3>
+                      <p className="text-xs text-slate-500 line-clamp-2">{sub.description}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* 4. Dynamic Products Block with Sidebar */}
           <section className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row gap-8">
@@ -229,8 +246,12 @@ export default function CategoryPage() {
                 <div className="sticky top-24">
                   <ProductFilters 
                     onFilterChange={setFilters}
-                    // TODO: Pasar atributos reales desde GraphQL cuando el backend lo soporte
-                    attributes={[]}
+                    // Pasar filtros SEO desde el JSON si existen
+                    attributes={categoryData.filters_seo ? Object.entries(categoryData.filters_seo).map(([key, values]) => ({
+                      name: key.charAt(0).toUpperCase() + key.slice(1),
+                      slug: key,
+                      options: (values as string[]).map(v => ({ name: v, slug: v.toLowerCase().replace(/\s+/g, '-'), count: 0 }))
+                    })) : []}
                   />
                 </div>
               </aside>
@@ -277,6 +298,30 @@ export default function CategoryPage() {
           {/* Actually, let's just use the SeoContentBlock for the bottom half to keep it clean. */}
           
           <SeoContentBlock data={categoryData} />
+
+          {/* Featured Review (Nuevo JSON) */}
+          {categoryData.featured_review && (
+            <section className="container mx-auto px-4 mb-16">
+              <div className="bg-blue-50 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                <div className="flex justify-center mb-6">
+                  {[...Array(categoryData.featured_review.rating)].map((_, i) => (
+                    <svg key={i} className="w-6 h-6 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <blockquote className="text-xl md:text-2xl font-medium text-slate-800 mb-6 italic">
+                  "{categoryData.featured_review.text}"
+                </blockquote>
+                <div className="text-slate-600">
+                  <span className="font-bold text-slate-900">{categoryData.featured_review.author}</span>
+                  <span className="mx-2">•</span>
+                  <span>{categoryData.featured_review.company}</span>
+                </div>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </>

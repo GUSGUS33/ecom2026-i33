@@ -9,6 +9,25 @@ export interface SeoCategoryData {
   hero_tituloPrincipal: string; // H1
   hero_intro: string;
   hub_subcategorias_texto: string;
+
+  // Nuevos campos opcionales
+  subcategories?: {
+    title: string;
+    url: string;
+    description: string;
+  }[];
+
+  featured_review?: {
+    text: string;
+    author: string;
+    company: string;
+    rating: number;
+    date: string;
+  };
+
+  filters_seo?: {
+    [key: string]: string[];
+  };
   
   ventajasEmpresa: {
     titulo: string;
