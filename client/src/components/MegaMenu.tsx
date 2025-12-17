@@ -278,7 +278,7 @@ export const menuData: Record<string, MegaMenuSection> = {
       {
         title: "DTF",
         href: "/servicios/impresion-dtf",
-        items: [{ label: "Transferencia DTF de alta calidad...", href: "/servicios/impresion-dtf" }],
+        items: [{ label: "Estampación textil digital de alta calidad...", href: "/servicios/impresion-dtf" }],
       },
     ],
   },
@@ -307,8 +307,8 @@ export function MegaMenu() {
 
           {/* Dropdown Panel */}
           {activeMenu === key && (
-            <div className="absolute top-full left-0 w-[90vw] max-w-7xl -translate-x-1/4 bg-white shadow-xl border-t-4 border-blue-400 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="flex p-8 gap-8">
+            <div className="fixed left-0 right-0 top-[115px] w-full bg-white shadow-xl border-t-4 border-blue-400 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="container mx-auto px-4 py-8 flex gap-8">
                 {/* Columns */}
                 <div className={`flex-1 grid ${key === 'ropa-personalizada' ? 'grid-cols-6' : key === 'merchandising' ? 'grid-cols-7' : key === 'servicios' ? 'grid-cols-5' : 'grid-cols-4'} gap-8`}>
                   {section.columns.map((col, idx) => (

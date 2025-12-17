@@ -248,9 +248,14 @@ export default function CategoryPage() {
                     onFilterChange={setFilters}
                     // Pasar filtros SEO desde el JSON si existen
                     attributes={categoryData.filters_seo ? Object.entries(categoryData.filters_seo).map(([key, values]) => ({
+                      id: key,
                       name: key.charAt(0).toUpperCase() + key.slice(1),
                       slug: key,
-                      options: (values as string[]).map(v => ({ name: v, slug: v.toLowerCase().replace(/\s+/g, '-'), count: 0 }))
+                      options: (values as string[]).map(v => ({ 
+                        id: v.toLowerCase().replace(/\s+/g, '-'), 
+                        label: v, 
+                        count: 0 
+                      }))
                     })) : []}
                   />
                 </div>
