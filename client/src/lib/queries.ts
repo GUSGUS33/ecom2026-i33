@@ -43,8 +43,10 @@ export const GET_FULL_VARIABLE_PRODUCT = gql`
         }
         variations(first: 100) {
           nodes {
+            id
             price
             stockStatus
+            stockQuantity
             attributes {
               nodes {
                 name

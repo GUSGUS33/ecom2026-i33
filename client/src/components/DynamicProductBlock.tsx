@@ -37,7 +37,6 @@ export function DynamicProductBlock({ categorySlug, limit = 12, columns = 4, fil
       after: null,
       minPrice: filters?.minPrice,
       maxPrice: filters?.maxPrice,
-      // taxonomyFilter: taxonomyFilter && taxonomyFilter.length > 0 ? taxonomyFilter : undefined
     },
     notifyOnNetworkStatusChange: true,
   });
