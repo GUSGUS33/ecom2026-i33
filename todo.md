@@ -7,3 +7,23 @@
 - [ ] Verificar responsividad:
     - [ ] Asegurar comportamiento correcto en breakpoint 768px (md).
     - [ ] Asegurar comportamiento correcto en breakpoint 1280px/1290px (xl).
+- [x] Implementar feed XML para Google Merchant Center:
+    - [x] Crear query GraphQL para obtener productos con campos necesarios
+    - [x] Implementar endpoint GET /feeds/google.xml
+    - [x] Generar RSS 2.0 con namespace Google
+    - [x] Incluir campos obligatorios (id, title, description, link, image_link, price, availability, condition)
+    - [x] Incluir campos opcionales (brand, mpn)
+    - [x] Soporte para productos simples y variables
+    - [x] Implementar paginación para >1000 productos
+    - [x] Añadir caché de 15 minutos
+    - [x] Validar formato XML contra especificaciones de Google
+- [ ] Implementar variaciones completas en feed XML de Google Merchant:
+    - [x] Actualizar query GraphQL para obtener variations de VariableProduct
+    - [x] Obtener atributos de cada variación (color, talla, etc.)
+    - [x] Generar item individual por cada variación
+    - [x] Implementar g:item_group_id para agrupar variaciones
+    - [x] Añadir g:color y g:size cuando estén disponibles
+    - [x] Usar imagen específica de cada variación
+    - [x] Usar precio específico de cada variación
+    - [x] Usar stock específico de cada variación
+    - [ ] PENDIENTE: Depurar por qué la query GraphQL con variaciones no retorna datos
