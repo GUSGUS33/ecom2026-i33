@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { getCurrentSession, onAuthStateChange } from '@/services/authService';
+import { isSupabaseConfigured } from '@/lib/supabaseClient';
 import {
   getOrCreateUserProfile,
   type UserProfile,
@@ -62,6 +63,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const initializeAuth = async () => {
       try {
+        // If Supabase is not configured, skip auth initialization
+        if (!isSupabaseConfigured) {
+          console.warn('⚠️ Supabase not configured. Auth features disabled. Public pages will work normally.');
+          setLoading(false);
+          return;
+        }
+
         const { session, error: sessionError } = await getCurrentSession();
 
         if (sessionError) {
@@ -77,8 +85,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setProfile(null);
         }
       } catch (err) {
-        console.error('Error initializing auth:', err);
-        setError('Error al inicializar autenticación');
+        // Don't treat missing Supabase config as an error
+        if (!isSupabaseConfigured) {
+          console.debug('Auth initialization skipped: Supabase not configured');
+        } else {
+          console.error('Error initializing auth:', err);
+          setError('Error al inicializar autenticación');
+        }
       } finally {
         if (mounted) {
           setLoading(false);
