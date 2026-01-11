@@ -17,9 +17,10 @@ const PriceCalculator = lazy(() => import('./PriceCalculator'));
 interface ProductPricingFlowProps {
   product: Product;
   onRequestQuote?: (data: any) => void;
+  onColorChange?: (colorName: string, colorImage?: string) => void;
 }
 
-const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ product, onRequestQuote }) => {
+const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ product, onRequestQuote, onColorChange }) => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedPrintingMethod, setSelectedPrintingMethod] = useState<PrintingMethodId>('DTF');
   const [firstZoneInitialized, setFirstZoneInitialized] = useState(false);
@@ -104,7 +105,14 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
           <ColorSelector
             availableColors={availableColors}
             selectedColor={selectedColor}
-            onColorSelect={selectColor}
+            onColorSelect={(colorName) => {
+              selectColor(colorName);
+              // Encontrar la imagen del color seleccionado
+              const selectedColorObj = availableColors.find(c => c.name === colorName);
+              if (onColorChange && selectedColorObj) {
+                onColorChange(colorName, selectedColorObj.image);
+              }
+            }}
           />
         </Suspense>
         

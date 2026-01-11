@@ -26,6 +26,7 @@ export default function ProductPage() {
   const { user } = useAuth();
   
   const [mainImage, setMainImage] = useState<string>('');
+  const [selectedColorImage, setSelectedColorImage] = useState<string>('');
 
   // Registrar vista del producto cuando se carga
   useEffect(() => {
@@ -43,6 +44,13 @@ export default function ProductPage() {
       setMainImage(product.featuredImage?.node?.sourceUrl || product.galleryImages?.nodes?.[0]?.sourceUrl || '/placeholder-image.jpg');
     }
   }, [product]);
+
+  // Manejar cambio de color - actualizar imagen principal
+  const handleColorChange = (colorName: string, colorImage?: string) => {
+    if (colorImage) {
+      setSelectedColorImage(colorImage);
+    }
+  };
 
   // Manejar solicitud de presupuesto
   const handleRequestQuote = (quoteData: any) => {
@@ -137,9 +145,9 @@ export default function ProductPage() {
                   <Badge className="absolute top-4 left-4 bg-red-500 hover:bg-red-600 z-10">Oferta</Badge>
                 )}
                 <img 
-                  src={mainImage || '/placeholder-image.jpg'} 
+                  src={selectedColorImage || mainImage || '/placeholder-image.jpg'} 
                   alt={product.name}
-                  className="w-full h-full object-contain p-4"
+                  className="w-full h-full object-contain p-4 transition-all duration-300"
                 />
               </div>
               {product.galleryImages?.nodes && product.galleryImages.nodes.length > 0 && (
@@ -194,6 +202,7 @@ export default function ProductPage() {
               <ProductPricingFlow 
                 product={product}
                 onRequestQuote={handleRequestQuote}
+                onColorChange={handleColorChange}
               />
               {/* ------------------------------------ */}
 
