@@ -2,18 +2,157 @@
  * FormattedDescription Component
  * 
  * Procesa y mejora el HTML de descripciones de WooCommerce
- * Añade clases Tailwind para mejor formato y legibilidad
- * 
- * Características:
+ * Características avanzadas:
+ * - Divide párrafos largos en secciones más legibles
+ * - Detecta palabras clave y las pone en negrita automáticamente
+ * - Añade espaciado estratégico
  * - Sanitiza HTML para evitar XSS
- * - Añade estilos Tailwind a párrafos, listas, tablas, etc.
- * - Mejora espaciado y tipografía
- * - Preserva estructura original del HTML
+ * - Mejora estructura visual general
  */
 
 interface FormattedDescriptionProps {
   html: string;
   className?: string;
+}
+
+/**
+ * Palabras clave que se detectan automáticamente para poner en negrita
+ */
+const KEYWORDS_TO_BOLD = [
+  'características técnicas',
+  'características',
+  'modelo:',
+  'modelo',
+  'talla',
+  'tallas',
+  'material',
+  'materiales',
+  'composición',
+  'peso',
+  'dimensiones',
+  'color',
+  'colores',
+  'cuidados',
+  'instrucciones',
+  'garantía',
+  'disponible',
+  'disponibles',
+  'especificaciones',
+  'especificación',
+  'descripción',
+  'información',
+  'ventajas',
+  'beneficios',
+  'uso',
+  'aplicación',
+  'aplicaciones',
+  'tecnología',
+  'proceso',
+  'método',
+  'sistema',
+  'servicio',
+  'servicios',
+  'precio',
+  'precios',
+  'envío',
+  'devolución',
+  'política',
+  'políticas',
+  'nota:',
+  'importante:',
+  'atención:',
+  'advertencia:',
+  'recomendación:',
+  'recomendaciones:',
+];
+
+/**
+ * Divide párrafos largos en secciones más legibles
+ */
+function splitLongParagraphs(html: string): string {
+  // Expresión regular para encontrar párrafos
+  const paragraphRegex = /<p([^>]*)>(.*?)<\/p>/gi;
+  
+  let result = html;
+  let match;
+
+  while ((match = paragraphRegex.exec(html)) !== null) {
+    const fullTag = match[0];
+    const attributes = match[1];
+    const content = match[2];
+
+    // Si el párrafo es muy largo (más de 400 caracteres), dividirlo
+    if (content.length > 400) {
+      // Dividir por puntos seguidos de espacio
+      const sentences = content.split(/(?<=[.!?])\s+/);
+      
+      if (sentences.length > 1) {
+        // Agrupar sentencias en grupos de 2-3 para crear párrafos más pequeños
+        const groupedSentences = [];
+        let currentGroup = [];
+        let currentLength = 0;
+
+        sentences.forEach((sentence) => {
+          currentGroup.push(sentence);
+          currentLength += sentence.length;
+
+          // Si el grupo alcanza ~200 caracteres o tiene 3 sentencias, crear un nuevo párrafo
+          if (currentLength > 200 || currentGroup.length >= 3) {
+            groupedSentences.push(currentGroup.join(' '));
+            currentGroup = [];
+            currentLength = 0;
+          }
+        });
+
+        // Añadir el grupo final si hay contenido
+        if (currentGroup.length > 0) {
+          groupedSentences.push(currentGroup.join(' '));
+        }
+
+        // Reconstruir los párrafos
+        const newParagraphs = groupedSentences
+          .map((group) => `<p${attributes}>${group}</p>`)
+          .join('');
+
+        result = result.replace(fullTag, newParagraphs);
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Detecta palabras clave y las pone en negrita automáticamente
+ */
+function boldKeywords(html: string): string {
+  let result = html;
+
+  KEYWORDS_TO_BOLD.forEach((keyword) => {
+    // Crear una expresión regular que sea case-insensitive
+    // pero que no reemplace si ya está dentro de una etiqueta <strong>, <b>, <em>, etc.
+    const regex = new RegExp(
+      `(?<!<[^>]*)(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})(?![^<]*>)`,
+      'gi'
+    );
+
+    result = result.replace(regex, '<strong>$1</strong>');
+  });
+
+  return result;
+}
+
+/**
+ * Añade espaciado extra después de puntos para mejorar legibilidad
+ */
+function improveSpacing(html: string): string {
+  // Añadir saltos de línea después de puntos seguidos de mayúscula
+  let result = html.replace(/([.!?])\s+([A-Z])/g, '$1<br /><br />$2');
+
+  // Añadir espaciado entre párrafos consecutivos
+  result = result.replace(/<\/p>\s*<p/g, '</p><p');
+
+  return result;
 }
 
 /**
@@ -25,7 +164,7 @@ function enhanceHtmlWithTailwind(html: string): string {
   // Mejorar párrafos: añadir espaciado y tamaño de fuente
   enhanced = enhanced.replace(
     /<p([^>]*)>/g,
-    '<p$1 class="mb-4 leading-relaxed text-base text-slate-700">'
+    '<p$1 class="mb-5 leading-relaxed text-base text-slate-700">'
   );
 
   // Mejorar encabezados H1, H2, H3, H4, H5, H6
@@ -57,13 +196,13 @@ function enhanceHtmlWithTailwind(html: string): string {
   // Mejorar listas desordenadas
   enhanced = enhanced.replace(
     /<ul([^>]*)>/g,
-    '<ul$1 class="list-disc list-inside mb-4 space-y-2 text-slate-700">'
+    '<ul$1 class="list-disc list-inside mb-5 space-y-2 text-slate-700">'
   );
 
   // Mejorar listas ordenadas
   enhanced = enhanced.replace(
     /<ol([^>]*)>/g,
-    '<ol$1 class="list-decimal list-inside mb-4 space-y-2 text-slate-700">'
+    '<ol$1 class="list-decimal list-inside mb-5 space-y-2 text-slate-700">'
   );
 
   // Mejorar items de lista
@@ -75,13 +214,13 @@ function enhanceHtmlWithTailwind(html: string): string {
   // Mejorar blockquotes
   enhanced = enhanced.replace(
     /<blockquote([^>]*)>/g,
-    '<blockquote$1 class="border-l-4 border-blue-500 pl-4 py-2 my-4 italic text-slate-600 bg-blue-50 rounded-r">'
+    '<blockquote$1 class="border-l-4 border-blue-500 pl-4 py-2 my-5 italic text-slate-600 bg-blue-50 rounded-r">'
   );
 
   // Mejorar tablas
   enhanced = enhanced.replace(
     /<table([^>]*)>/g,
-    '<table$1 class="w-full border-collapse my-4 border border-slate-300">'
+    '<table$1 class="w-full border-collapse my-5 border border-slate-300">'
   );
 
   enhanced = enhanced.replace(
@@ -102,7 +241,7 @@ function enhanceHtmlWithTailwind(html: string): string {
   // Mejorar imágenes
   enhanced = enhanced.replace(
     /<img([^>]*?)>/g,
-    '<img$1 class="max-w-full h-auto rounded-lg my-4" />'
+    '<img$1 class="max-w-full h-auto rounded-lg my-5" />'
   );
 
   // Mejorar enlaces
@@ -120,7 +259,7 @@ function enhanceHtmlWithTailwind(html: string): string {
   // Mejorar bloques de código
   enhanced = enhanced.replace(
     /<pre([^>]*)>/g,
-    '<pre$1 class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto my-4 font-mono text-sm">'
+    '<pre$1 class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto my-5 font-mono text-sm">'
   );
 
   // Mejorar énfasis (strong, em, b, i)
@@ -161,22 +300,9 @@ function enhanceHtmlWithTailwind(html: string): string {
 
 /**
  * Sanitiza el HTML para evitar XSS
- * Nota: En producción, considera usar DOMPurify o similar
  */
 function sanitizeHtml(html: string): string {
-  // Crear un div temporal para parsear el HTML
-  const temp = document.createElement('div');
-  temp.textContent = html;
-  
   // Permitir solo etiquetas seguras
-  const allowedTags = [
-    'p', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    'ul', 'ol', 'li', 'blockquote', 'strong', 'em', 'b', 'i',
-    'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
-    'img', 'a', 'code', 'pre', 'span', 'div'
-  ];
-
-  // Si el HTML contiene etiquetas peligrosas, lo sanitizamos
   const dangerousPatterns = [/<script/gi, /on\w+\s*=/gi, /javascript:/gi];
   let isSafe = !dangerousPatterns.some(pattern => pattern.test(html));
 
@@ -200,15 +326,18 @@ export function FormattedDescription({
   }
 
   // Sanitizar HTML
-  const sanitized = sanitizeHtml(html);
+  let processed = sanitizeHtml(html);
 
-  // Mejorar HTML con clases Tailwind
-  const enhanced = enhanceHtmlWithTailwind(sanitized);
+  // Aplicar mejoras en orden
+  processed = splitLongParagraphs(processed);
+  processed = improveSpacing(processed);
+  processed = boldKeywords(processed);
+  processed = enhanceHtmlWithTailwind(processed);
 
   return (
     <div
       className={`prose prose-slate max-w-none ${className}`}
-      dangerouslySetInnerHTML={{ __html: enhanced }}
+      dangerouslySetInnerHTML={{ __html: processed }}
     />
   );
 }
