@@ -61,83 +61,103 @@ const SizeQuantityTable: React.FC<SizeQuantityTableProps> = ({
   const sortedChildSizes = sortSizes(childSizes);
   const sortedAdultSizes = sortSizes(adultSizes);
 
-  // Componente para renderizar una fila de tallas
-  const SizeRow = ({ sizes, label }: { sizes: SizeQuantityOption[], label?: string }) => (
-    <>
+  // Componente para renderizar una tabla de tallas
+  const SizeTable = ({ sizes, label }: { sizes: SizeQuantityOption[], label?: string }) => (
+    <div className="mb-6">
       {label && (
-        <tr className="bg-slate-100 border-b border-slate-200">
-          <td colSpan={sizes.length} className="px-4 py-2">
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-              {label}
-            </span>
-          </td>
-        </tr>
+        <div className="bg-slate-100 px-4 py-2 mb-0 rounded-t-lg border border-slate-200 border-b-0">
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            {label}
+          </span>
+        </div>
       )}
-      <tr>
-        {sizes.map((sizeOption) => {
-          const currentQuantity = quantities[sizeOption.size] || 0;
-          const isOutOfStock = sizeOption.stockStatus === 'OUT_OF_STOCK' || sizeOption.stockQuantity <= 0;
-          const maxStock = sizeOption.stockQuantity || 0;
-          const isLowStock = !isOutOfStock && maxStock < 10;
-          
-          return (
-            <td 
-              key={sizeOption.size}
-              className={`px-2 py-4 text-center border-r border-slate-100 last:border-r-0 transition-colors ${
-                currentQuantity > 0 ? 'bg-blue-50/30' : ''
-              }`}
-            >
-              {isOutOfStock ? (
-                <div className="flex flex-col items-center justify-center h-[60px]">
-                  <span className="text-xs font-bold text-slate-300 line-through mb-1">0</span>
-                  <span className="text-[10px] text-red-500 font-bold bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
-                    AGOTADO
-                  </span>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  {/* Input de cantidad */}
-                  <div className="relative">
-                    <input
-                      type="number"
-                      min="0"
-                      max={maxStock}
-                      value={currentQuantity || ''}
-                      onChange={(e) => {
-                        const val = e.target.value;
-                        const newQuantity = val === '' ? 0 : parseInt(val);
-                        if (!isNaN(newQuantity)) {
-                          onQuantityChange(sizeOption.size, Math.max(0, Math.min(newQuantity, maxStock)));
-                        }
-                      }}
-                      disabled={disabled}
-                      className={`
-                        w-16 h-10 border-2 rounded-lg text-center font-bold text-lg outline-none transition-all
-                        ${currentQuantity > 0 
-                          ? 'border-blue-500 text-blue-700 bg-white shadow-md shadow-blue-100' 
-                          : 'border-slate-200 text-slate-700 hover:border-slate-300 focus:border-blue-400'
-                        }
-                        ${disabled ? 'bg-slate-50 cursor-not-allowed opacity-60' : ''}
-                      `}
-                      placeholder="0"
-                    />
-                  </div>
+      
+      <div className="border border-slate-200 rounded-b-lg overflow-hidden bg-white">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[300px]">
+            <thead className="bg-slate-50">
+              <tr>
+                {sizes.map((size) => (
+                  <th 
+                    key={size.size}
+                    className="px-2 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200"
+                  >
+                    {size.size}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            
+            <tbody>
+              <tr>
+                {sizes.map((sizeOption) => {
+                  const currentQuantity = quantities[sizeOption.size] || 0;
+                  const isOutOfStock = sizeOption.stockStatus === 'OUT_OF_STOCK' || sizeOption.stockQuantity <= 0;
+                  const maxStock = sizeOption.stockQuantity || 0;
+                  const isLowStock = !isOutOfStock && maxStock < 10;
                   
-                  {/* Stock en tiempo real */}
-                  <div className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${
-                    isLowStock 
-                      ? 'text-amber-600 bg-amber-50 border-amber-100' 
-                      : 'text-green-600 bg-green-50 border-green-100'
-                  }`}>
-                    {maxStock} disp.
-                  </div>
-                </div>
-              )}
-            </td>
-          );
-        })}
-      </tr>
-    </>
+                  return (
+                    <td 
+                      key={sizeOption.size}
+                      className={`px-2 py-4 text-center border-r border-slate-100 last:border-r-0 transition-colors ${
+                        currentQuantity > 0 ? 'bg-blue-50/30' : ''
+                      }`}
+                    >
+                      {isOutOfStock ? (
+                        <div className="flex flex-col items-center justify-center h-[60px]">
+                          <span className="text-xs font-bold text-slate-300 line-through mb-1">0</span>
+                          <span className="text-[10px] text-red-500 font-bold bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
+                            AGOTADO
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center gap-2">
+                          {/* Input de cantidad */}
+                          <div className="relative">
+                            <input
+                              type="number"
+                              min="0"
+                              max={maxStock}
+                              value={currentQuantity || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                const newQuantity = val === '' ? 0 : parseInt(val);
+                                if (!isNaN(newQuantity)) {
+                                  onQuantityChange(sizeOption.size, Math.max(0, Math.min(newQuantity, maxStock)));
+                                }
+                              }}
+                              disabled={disabled}
+                              className={`
+                                w-16 h-10 border-2 rounded-lg text-center font-bold text-lg outline-none transition-all
+                                ${currentQuantity > 0 
+                                  ? 'border-blue-500 text-blue-700 bg-white shadow-md shadow-blue-100' 
+                                  : 'border-slate-200 text-slate-700 hover:border-slate-300 focus:border-blue-400'
+                                }
+                                ${disabled ? 'bg-slate-50 cursor-not-allowed opacity-60' : ''}
+                              `}
+                              placeholder="0"
+                            />
+                          </div>
+                          
+                          {/* Stock en tiempo real */}
+                          <div className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${
+                            isLowStock 
+                              ? 'text-amber-600 bg-amber-50 border-amber-100' 
+                              : 'text-green-600 bg-green-50 border-green-100'
+                          }`}>
+                            {maxStock} disp.
+                          </div>
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 
   return (
@@ -153,49 +173,20 @@ const SizeQuantityTable: React.FC<SizeQuantityTableProps> = ({
         </span>
       </div>
       
-      {/* Tabla */}
-      <div className="border border-slate-200 border-t-0 rounded-b-xl overflow-hidden bg-white shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[300px]">
-            <thead className="bg-slate-50">
-              <tr>
-                {/* Mostrar encabezados de tallas de niños */}
-                {sortedChildSizes.length > 0 && sortedChildSizes.map((size) => (
-                  <th 
-                    key={size.size}
-                    className="px-2 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200"
-                  >
-                    {size.size}
-                  </th>
-                ))}
-                {/* Mostrar encabezados de tallas de adultos */}
-                {sortedAdultSizes.length > 0 && sortedAdultSizes.map((size) => (
-                  <th 
-                    key={size.size}
-                    className="px-2 py-3 text-center text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-slate-200"
-                  >
-                    {size.size}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            
-            <tbody>
-              {/* Fila de tallas de niños */}
-              {sortedChildSizes.length > 0 && (
-                <SizeRow sizes={sortedChildSizes} label="👶 Tallas de Niños" />
-              )}
-              
-              {/* Fila de tallas de adultos */}
-              {sortedAdultSizes.length > 0 && (
-                <SizeRow sizes={sortedAdultSizes} label="👨 Tallas de Adultos" />
-              )}
-            </tbody>
-          </table>
-        </div>
+      {/* Tablas separadas */}
+      <div className="px-4 py-4 bg-slate-50 rounded-b-xl border border-slate-200 border-t-0">
+        {/* Tabla de tallas de niños */}
+        {sortedChildSizes.length > 0 && (
+          <SizeTable sizes={sortedChildSizes} label="👶 Tallas de Niños" />
+        )}
+        
+        {/* Tabla de tallas de adultos */}
+        {sortedAdultSizes.length > 0 && (
+          <SizeTable sizes={sortedAdultSizes} label="👨 Tallas de Adultos" />
+        )}
         
         {/* Footer de la tabla */}
-        <div className="bg-slate-50 px-4 py-3 border-t border-slate-200 flex justify-between items-center">
+        <div className="bg-white px-4 py-3 border border-slate-200 rounded-lg flex justify-between items-center mt-4">
           <div className="text-xs text-slate-500 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500"></span> Stock disponible
             <span className="w-2 h-2 rounded-full bg-red-500 ml-2"></span> Agotado
