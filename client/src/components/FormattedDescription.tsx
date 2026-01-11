@@ -3,6 +3,7 @@
  * 
  * Procesa y mejora el HTML de descripciones de WooCommerce
  * Características avanzadas:
+ * - Convierte texto plano a HTML si es necesario
  * - Divide párrafos largos en secciones más legibles
  * - Detecta palabras clave y las pone en negrita automáticamente
  * - Añade espaciado estratégico
@@ -67,6 +68,48 @@ const KEYWORDS_TO_BOLD = [
 ];
 
 /**
+ * Detecta si el HTML es texto plano (sin etiquetas HTML)
+ */
+function isPlainText(html: string): boolean {
+  // Si no tiene etiquetas HTML, es texto plano
+  return !/<[^>]+>/g.test(html);
+}
+
+/**
+ * Convierte texto plano a HTML con párrafos
+ * Divide por líneas en blanco o puntos seguidos de mayúscula
+ */
+function convertPlainTextToHtml(text: string): string {
+  // Escapar caracteres especiales HTML
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+  // Dividir por líneas en blanco (párrafos)
+  const paragraphs = html.split(/\n\s*\n/);
+  
+  // Convertir cada párrafo a etiqueta <p>
+  const htmlParagraphs = paragraphs
+    .map(para => {
+      // Limpiar espacios en blanco
+      const cleaned = para.trim();
+      if (cleaned) {
+        // Reemplazar saltos de línea simples con <br>
+        const withBr = cleaned.replace(/\n/g, '<br />');
+        return `<p>${withBr}</p>`;
+      }
+      return '';
+    })
+    .filter(p => p) // Remover párrafos vacíos
+    .join('');
+
+  return htmlParagraphs;
+}
+
+/**
  * Divide párrafos largos en secciones más legibles
  */
 function splitLongParagraphs(html: string): string {
@@ -74,9 +117,11 @@ function splitLongParagraphs(html: string): string {
   const paragraphRegex = /<p([^>]*)>(.*?)<\/p>/gi;
   
   let result = html;
-  let match;
+  const matches = Array.from(html.matchAll(paragraphRegex));
 
-  while ((match = paragraphRegex.exec(html)) !== null) {
+  // Procesar en orden inverso para no afectar los índices
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const match = matches[i];
     const fullTag = match[0];
     const attributes = match[1];
     const content = match[2];
@@ -96,12 +141,12 @@ function splitLongParagraphs(html: string): string {
           currentGroup.push(sentence);
           currentLength += sentence.length;
 
-      // Si el grupo alcanza ~200 caracteres o tiene 3 sentencias, crear un nuevo párrafo
-        if (currentLength > 200 || currentGroup.length >= 3) {
-          groupedSentences.push(currentGroup.join(' '));
-          currentGroup = [];
-          currentLength = 0;
-        }
+          // Si el grupo alcanza ~200 caracteres o tiene 3 sentencias, crear un nuevo párrafo
+          if (currentLength > 200 || currentGroup.length >= 3) {
+            groupedSentences.push(currentGroup.join(' '));
+            currentGroup = [];
+            currentLength = 0;
+          }
         });
 
         // Añadir el grupo final si hay contenido
@@ -327,6 +372,12 @@ export function FormattedDescription({
 
   // Sanitizar HTML
   let processed = sanitizeHtml(html);
+
+  // Si es texto plano, convertir a HTML primero
+  if (isPlainText(processed)) {
+    console.log('📝 Detectado texto plano, convirtiendo a HTML...');
+    processed = convertPlainTextToHtml(processed);
+  }
 
   // Aplicar mejoras en orden
   processed = splitLongParagraphs(processed);
