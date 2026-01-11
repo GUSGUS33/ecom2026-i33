@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChevronRight, Home, Check } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { formatPrice } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 import { trackProductView } from '@/services/trackingService';
@@ -15,6 +16,7 @@ import { trackProductView } from '@/services/trackingService';
 // Pricing Components
 import ProductPricingFlow from '@/components/pricing/ProductPricingFlow';
 import { FavoriteButton } from '@/components/FavoriteButton';
+import { FormattedDescription } from '@/components/FormattedDescription';
 
 export default function ProductPage() {
   const [, params] = useRoute('/producto/:slug');
@@ -198,10 +200,11 @@ export default function ProductPage() {
               {/* Full Description */}
               <div className="pt-6 border-t border-slate-200 mt-8">
                 <h3 className="text-lg font-bold mb-4 text-slate-900">Descripción detallada</h3>
-                <div 
-                  className="prose prose-slate max-w-none text-slate-600"
-                  dangerouslySetInnerHTML={{ __html: product.description }} 
-                />
+                {product.description ? (
+                  <FormattedDescription html={product.description} />
+                ) : (
+                  <p className="text-slate-500 italic">No hay descripción disponible para este producto.</p>
+                )}
               </div>
             </div>
           </div>
