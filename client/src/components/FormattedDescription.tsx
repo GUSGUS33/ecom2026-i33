@@ -88,20 +88,20 @@ function splitLongParagraphs(html: string): string {
       
       if (sentences.length > 1) {
         // Agrupar sentencias en grupos de 2-3 para crear párrafos más pequeños
-        const groupedSentences = [];
-        let currentGroup = [];
+        const groupedSentences: string[] = [];
+        let currentGroup: string[] = [];
         let currentLength = 0;
 
         sentences.forEach((sentence) => {
           currentGroup.push(sentence);
           currentLength += sentence.length;
 
-          // Si el grupo alcanza ~200 caracteres o tiene 3 sentencias, crear un nuevo párrafo
-          if (currentLength > 200 || currentGroup.length >= 3) {
-            groupedSentences.push(currentGroup.join(' '));
-            currentGroup = [];
-            currentLength = 0;
-          }
+      // Si el grupo alcanza ~200 caracteres o tiene 3 sentencias, crear un nuevo párrafo
+        if (currentLength > 200 || currentGroup.length >= 3) {
+          groupedSentences.push(currentGroup.join(' '));
+          currentGroup = [];
+          currentLength = 0;
+        }
         });
 
         // Añadir el grupo final si hay contenido
