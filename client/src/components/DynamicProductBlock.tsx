@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { formatPrice } from "@/lib/utils";
+import { FavoriteButton } from "@/components/FavoriteButton";
 
 interface DynamicProductBlockProps {
   categorySlug: string;
@@ -141,6 +142,15 @@ export function DynamicProductBlock({ categorySlug, limit = 12, columns = 4, fil
                       <span className="text-xs uppercase font-bold">Sin imagen</span>
                     </div>
                   )}
+                  {/* Boton de favorito - sutil, aparece al hover */}
+                  <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <FavoriteButton
+                      productId={parseInt(product.id)}
+                      productSlug={product.slug}
+                      size="sm"
+                      className="bg-white rounded-full p-2 shadow-sm hover:shadow-md"
+                    />
+                  </div>
                 </div>
                 
                 <div className="flex-grow flex flex-col">

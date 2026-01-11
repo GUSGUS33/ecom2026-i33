@@ -7,6 +7,17 @@ import { Button } from "@/components/ui/button";
 import { MegaMenu, menuData } from "@/components/MegaMenu";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useExternalScripts } from "@/hooks/useExternalScripts";
+import { useAuth } from "@/context/AuthContext";
+import { signOut } from "@/services/authService";
+import { User, LogOut } from "lucide-react";
+import { useCart } from "@/hooks/useCart";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -18,6 +29,13 @@ export function MainLayout({ children }: MainLayoutProps) {
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const [location] = useLocation();
   const scriptsLoaded = useExternalScripts();
+  const { user, profile } = useAuth();
+  const { itemCount } = useCart();
+
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = '/';
+  };
 
   const toggleSubmenu = (key: string) => {
     setExpandedMenu(expandedMenu === key ? null : key);
@@ -50,7 +68,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         <div className="container mx-auto px-4 py-5">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
+            <Link href={user ? "/inicio" : "/"} className="flex items-center gap-2">
               <img src="/logo.svg" alt="IMPACTO33" className="h-8 md:h-10 w-auto" />
             </Link>
 
@@ -61,6 +79,70 @@ export function MainLayout({ children }: MainLayoutProps) {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
+              {/* Carrito - Desktop */}
+              {user && (
+                <Link href="/carrito">
+                  <button className="hidden xl:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors text-slate-700 relative">
+                    <ShoppingBag size={20} />
+                    {itemCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                        {itemCount}
+                      </span>
+                    )}
+                  </button>
+                </Link>
+              )}
+
+              {/* Auth Buttons - Desktop */}
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="hidden xl:flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors text-slate-700 font-medium">
+                      <User size={20} />
+                      <span className="max-w-[150px] truncate">{user.email?.split('@')[0]}</span>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/inicio" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Mi Panel</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/mi-cuenta" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Mi Cuenta</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/mis-pedidos" className="cursor-pointer">
+                        <ShoppingBag className="mr-2 h-4 w-4" />
+                        <span>Mis Pedidos</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/mi-perfil" className="cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Mi Perfil</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-600">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Cerrar Sesión</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/auth/login">
+                  <Button variant="outline" size="sm" className="hidden xl:flex items-center gap-2">
+                    <User size={18} />
+                    Acceder
+                  </Button>
+                </Link>
+              )}
+
               <button 
                 className="xl:hidden p-2 hover:bg-slate-50 rounded-full text-slate-600"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -151,6 +233,30 @@ export function MainLayout({ children }: MainLayoutProps) {
                   )}
                 </div>
               ))}
+              
+              <hr className="border-slate-100 my-2" />
+              
+              {/* Mobile Auth */}
+              {user ? (
+                <div className="flex flex-col gap-2">
+                  <div className="text-xs font-bold text-slate-700 py-2">
+                    {user.email}
+                  </div>
+                  <Link href="/inicio" onClick={() => setIsMobileMenuOpen(false)} className="text-xs text-slate-600 hover:text-blue-500 py-1">
+                    Mi Panel
+                  </Link>
+                  <Link href="/mi-cuenta" onClick={() => setIsMobileMenuOpen(false)} className="text-xs text-slate-600 hover:text-blue-500 py-1">
+                    Mi Cuenta
+                  </Link>
+                  <button onClick={handleLogout} className="text-xs text-red-600 hover:text-red-700 py-1 text-left">
+                    Cerrar Sesion
+                  </button>
+                </div>
+              ) : (
+                <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)} className="text-xs font-bold text-blue-600 hover:text-blue-700 py-2">
+                  Iniciar Sesion
+                </Link>
+              )}
               
               <hr className="border-slate-100 my-2" />
               

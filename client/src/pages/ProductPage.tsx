@@ -9,22 +9,36 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChevronRight, Home, Check } from 'lucide-react';
 import { formatPrice } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
+import { trackProductView } from '@/services/trackingService';
 
 // Pricing Components
 import ProductPricingFlow from '@/components/pricing/ProductPricingFlow';
+import { FavoriteButton } from '@/components/FavoriteButton';
 
 export default function ProductPage() {
   const [, params] = useRoute('/producto/:slug');
   const slug = params?.slug;
 
   const { product, loading, error } = useProduct(slug || '');
+  const { user } = useAuth();
   
   const [mainImage, setMainImage] = useState<string>('');
+
+  // Registrar vista del producto cuando se carga
+  useEffect(() => {
+    if (product && user) {
+      trackProductView({
+        productId: parseInt(product.id),
+        productSlug: product.slug,
+      });
+    }
+  }, [product?.id, product?.slug, user]);
 
   // Reset state when product changes
   useEffect(() => {
     if (product) {
-      setMainImage(product.featuredImage?.node?.sourceUrl || product.galleryImages?.nodes[0]?.sourceUrl || '/placeholder-image.jpg');
+      setMainImage(product.featuredImage?.node?.sourceUrl || product.galleryImages?.nodes?.[0]?.sourceUrl || '/placeholder-image.jpg');
     }
   }, [product]);
 
@@ -65,6 +79,22 @@ export default function ProductPage() {
   }
 
   const isOutOfStock = product.stockStatus === 'OUT_OF_STOCK';
+  
+  // Extraer ID numérico del formato GraphQL de WooCommerce (gid://shopify/Product/123 o similar)
+  const extractProductId = (graphqlId: string): number => {
+    // Si es un número directo, usarlo
+    const directNum = parseInt(graphqlId, 10);
+    if (!isNaN(directNum)) return directNum;
+    
+    // Si es un GraphQL ID, extraer el número del final
+    const match = graphqlId.match(/(\d+)$/);
+    if (match) return parseInt(match[1], 10);
+    
+    // Si todo falla, usar el hash del slug como ID
+    return Math.abs(product.slug.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0));
+  };
+  
+  const productId = extractProductId(product.id);
 
   return (
     <>
@@ -110,7 +140,7 @@ export default function ProductPage() {
                   className="w-full h-full object-contain p-4"
                 />
               </div>
-              {product.galleryImages?.nodes.length > 0 && (
+              {product.galleryImages?.nodes && product.galleryImages.nodes.length > 0 && (
                 <div className="grid grid-cols-5 gap-2">
                   {product.galleryImages.nodes.map((img, idx) => (
                     <button 
@@ -142,6 +172,14 @@ export default function ProductPage() {
                       <Check size={16} className="mr-1" /> Stock disponible
                     </span>
                   )}
+                  
+                  <div className="ml-auto">
+                    <FavoriteButton
+                      productId={productId}
+                      productSlug={product.slug}
+                      size="lg"
+                    />
+                  </div>
                 </div>
 
                 <div 
@@ -169,7 +207,7 @@ export default function ProductPage() {
           </div>
 
           {/* Related Products */}
-          {product.related?.nodes.length > 0 && (
+          {product.related?.nodes && product.related.nodes.length > 0 && (
             <div className="mt-20 border-t border-slate-200 pt-12">
               <h2 className="text-2xl font-bold text-slate-900 mb-8">También te podría interesar</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">

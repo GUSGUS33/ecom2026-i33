@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./lib/apollo";
+import { AuthProvider } from "./context/AuthContext";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
@@ -13,7 +14,9 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <HelmetProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </HelmetProvider>
   </ApolloProvider>
 );

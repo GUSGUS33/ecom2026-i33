@@ -1,12 +1,16 @@
-import React, { Suspense, lazy, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { useProductPricing } from '../../hooks/useProductPricing';
 import { Product } from '../../../../shared/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { QuoteRequestModal } from './QuoteRequestModal';
+import { getAllPrintingMethods } from '../../data/pricing/printing-methods';
+import { getAvailablePrintingMethods } from '../../services/pricingService';
+import type { PrintingMethodId } from '../../types/printing';
 
 // Lazy load components for better initial render performance
 const ColorSelector = lazy(() => import('./ColorSelector'));
 const SizeQuantityTable = lazy(() => import('./SizeQuantityTable'));
+const PrintingMethodSelector = lazy(() => import('./PrintingMethodSelector'));
 const ZoneSelector = lazy(() => import('./ZoneSelector'));
 const PriceCalculator = lazy(() => import('./PriceCalculator'));
 
@@ -17,6 +21,17 @@ interface ProductPricingFlowProps {
 
 const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ product, onRequestQuote }) => {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [selectedPrintingMethod, setSelectedPrintingMethod] = useState<PrintingMethodId>('DTF');
+  const [firstZoneInitialized, setFirstZoneInitialized] = useState(false);
+
+  // Obtener categoría del producto
+  const categorySlug = (product as any).categories?.nodes?.[0]?.slug || 'default';
+  
+  // Obtener métodos de impresión disponibles para esta categoría
+  const availablePrintingMethods = getAvailablePrintingMethods(categorySlug);
+  
+  // Obtener todos los métodos (activos e inactivos) para mostrar opciones futuras
+  const allPrintingMethods = getAllPrintingMethods().map(m => m.id) as PrintingMethodId[];
 
   const {
     // Datos
@@ -45,8 +60,41 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
   } = useProductPricing({ 
     product,
     basePrice: product.price ? parseFloat(product.price.replace(/[^0-9.,]/g, '').replace(',', '.')) : 0,
-    pricingCategory: 'camisetas' // Esto debería venir dinámicamente del producto
+    pricingCategory: categorySlug // Dinámico desde categoría del producto
   });
+
+  // Inicializar primera zona cuando hay cantidad y método no es "Sin Impresión"
+  useEffect(() => {
+    if (hasSelectedColor && totalQuantity > 0 && pricingData && !firstZoneInitialized) {
+      // Si el método es "Sin Impresión", no activar zonas
+      if (selectedPrintingMethod === 'SIN_IMPRESION') {
+        if (selectedZones.length > 0) {
+          // Limpiar zonas si el método es Sin Impresión
+          selectedZones.forEach(zone => toggleZone(zone));
+        }
+      } else {
+        // Para DTF y Serigrafía, activar primera zona si no hay ninguna seleccionada
+        const availableZones = pricingData.zonas_permitidas || ['frontal', 'espalda', 'mangas'];
+        if (availableZones.length > 0 && selectedZones.length === 0) {
+          toggleZone(availableZones[0]);
+        }
+      }
+      setFirstZoneInitialized(true);
+    }
+  }, [hasSelectedColor, totalQuantity, pricingData, firstZoneInitialized, selectedPrintingMethod]);
+
+  // Resetear zonas cuando cambia el método a "Sin Impresión"
+  useEffect(() => {
+    if (selectedPrintingMethod === 'SIN_IMPRESION' && selectedZones.length > 0) {
+      selectedZones.forEach(zone => toggleZone(zone));
+    } else if (selectedPrintingMethod !== 'SIN_IMPRESION' && selectedZones.length === 0 && hasSelectedColor && totalQuantity > 0 && pricingData) {
+      // Si vuelves a DTF/Serigrafía desde Sin Impresión, reactiva primera zona
+      const availableZones = pricingData.zonas_permitidas || ['frontal', 'espalda', 'mangas'];
+      if (availableZones.length > 0) {
+        toggleZone(availableZones[0]);
+      }
+    }
+  }, [selectedPrintingMethod]);
 
   return (
     <div className="space-y-8">
@@ -106,17 +154,42 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
         </div>
       )}
 
-      {/* 3. Selector de Zonas de Personalización */}
-      {hasSelectedColor && totalQuantity > 0 && (
+      {/* 3. Selector de Método de Impresión */}
+      {hasSelectedColor && totalQuantity > 0 && availablePrintingMethods.length > 0 && (
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 delay-75">
+          <Suspense fallback={<Skeleton className="h-20 w-full rounded-xl" />}>
+            <PrintingMethodSelector
+              activeMethods={availablePrintingMethods}
+              selectedMethod={selectedPrintingMethod}
+              onMethodChange={setSelectedPrintingMethod}
+              showInactiveMethods={true}
+              availableMethods={allPrintingMethods}
+            />
+          </Suspense>
+        </div>
+      )}
+
+      {/* 4. Selector de Zonas de Personalización */}
+      {hasSelectedColor && totalQuantity > 0 && pricingData && (
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
           <Suspense fallback={<Skeleton className="h-40 w-full rounded-xl" />}>
             <ZoneSelector
-              availableZones={[
-                { id: 'frontal', name: 'frontal', label: 'Frontal', cost: pricingData?.coste_personalizacion?.frontal || 0.80 },
-                { id: 'espalda', name: 'espalda', label: 'Espalda', cost: pricingData?.coste_personalizacion?.espalda || 0.80 },
-                { id: 'manga_izquierda', name: 'manga_izquierda', label: 'Manga Izq.', cost: pricingData?.coste_personalizacion?.manga_izquierda || 0.50 },
-                { id: 'manga_derecha', name: 'manga_derecha', label: 'Manga Der.', cost: pricingData?.coste_personalizacion?.manga_derecha || 0.50 }
-              ]}
+              availableZones={(
+                pricingData.zonas_permitidas || ['frontal', 'espalda']
+              ).map(zoneId => {
+                const zoneLabels: Record<string, string> = {
+                  'frontal': 'Frontal',
+                  'espalda': 'Espalda',
+                  'manga_izquierda': 'Manga Izq.',
+                  'manga_derecha': 'Manga Der.'
+                };
+                return {
+                  id: zoneId,
+                  name: zoneId,
+                  label: zoneLabels[zoneId] || zoneId,
+                  cost: pricingData.coste_personalizacion[zoneId] || 0
+                };
+              })}
               selectedZones={selectedZones}
               onZoneChange={toggleZone}
               disabled={!hasSelectedColor}
@@ -125,7 +198,7 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
         </div>
       )}
 
-      {/* 4. Calculadora de Precios */}
+      {/* 5. Calculadora de Precios */}
       {isReadyForPricing && (
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 shadow-inner animate-in fade-in slide-in-from-top-4 duration-500 delay-200">
           <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
@@ -136,6 +209,9 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
               priceCalculation={priceCalculation}
               selectedColor={selectedColor}
               isValid={isValid}
+              quantities={quantities}
+              selectedZones={selectedZones}
+              selectedPrintingMethod={selectedPrintingMethod}
               onRequestQuote={() => {
                 setIsQuoteModalOpen(true);
                 if (onRequestQuote) {

@@ -12,6 +12,9 @@ interface PriceCalculatorProps {
   onRequestQuote?: () => void;
   isValid?: boolean;
   loading?: boolean;
+  quantities?: Record<string, number>;
+  selectedZones?: string[];
+  selectedPrintingMethod?: string;
 }
 
 const PriceCalculator: React.FC<PriceCalculatorProps> = ({
@@ -20,7 +23,10 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({
   showDetailedBreakdown = false,
   onRequestQuote,
   isValid = true,
-  loading = false
+  loading = false,
+  quantities = {},
+  selectedZones = [],
+  selectedPrintingMethod = 'DTF'
 }) => {
   const [showBreakdown, setShowBreakdown] = useState(showDetailedBreakdown);
 
@@ -112,39 +118,75 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({
         )}
       </div>
 
-      {/* Desglose Expandible */}
+      {/* Detalles Expandible */}
       <div className="border-b border-slate-100">
         <button 
           onClick={() => setShowBreakdown(!showBreakdown)}
           className="w-full flex items-center justify-between p-4 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
         >
           <span className="font-medium flex items-center gap-2">
-            {showBreakdown ? 'Ocultar desglose' : 'Ver desglose detallado'}
+            {showBreakdown ? 'Ocultar detalles' : 'Ver detalles'}
           </span>
           {showBreakdown ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
 
         {showBreakdown && (
-          <div className="p-4 bg-slate-50/50 space-y-3 text-sm border-t border-slate-100">
-            <div className="flex justify-between text-slate-600">
-              <span>Precio base producto:</span>
-              <span>{formatEuroPrice(precioUnitarioBase)}</span>
-            </div>
-            
-            <div className="flex justify-between text-slate-600">
-              <span>Personalización ({zonasSeleccionadas.length} zonas):</span>
-              <span>+{formatEuroPrice(precioPersonalizacion)}</span>
+          <div className="p-4 bg-slate-50/50 space-y-4 text-sm border-t border-slate-100">
+            {/* Color Seleccionado */}
+            <div className="pb-3 border-b border-slate-200">
+              <p className="text-slate-500 font-medium text-xs uppercase tracking-wide mb-2">Color Seleccionado</p>
+              <p className="text-slate-800 font-semibold capitalize">{selectedColor || 'No especificado'}</p>
             </div>
 
-            <div className="flex justify-between text-slate-600 font-medium pt-2 border-t border-slate-200">
-              <span>Subtotal unitario:</span>
-              <span>{formatEuroPrice(precioUnitarioBase + precioPersonalizacion)}</span>
+            {/* Cantidades por Talla */}
+            <div className="pb-3 border-b border-slate-200">
+              <p className="text-slate-500 font-medium text-xs uppercase tracking-wide mb-2">Cantidades por Talla</p>
+              <div className="space-y-1">
+                {Object.entries(quantities).map(([size, qty]) => {
+                  if (qty === 0) return null;
+                  return (
+                    <div key={size} className="flex justify-between text-slate-700">
+                      <span>Talla {size}:</span>
+                      <span className="font-medium">{qty} uds.</span>
+                    </div>
+                  );
+                })}
+                <div className="flex justify-between text-slate-900 font-bold pt-1 border-t border-slate-200 mt-1">
+                  <span>Total:</span>
+                  <span>{cantidadTotal} uds.</span>
+                </div>
+              </div>
             </div>
 
-            <div className="flex justify-between text-green-600 pt-1">
-              <span>Factor de escalado ({cantidadTotal} uds):</span>
-              <span>x{escalado.toFixed(2)}</span>
+            {/* Método de Impresión */}
+            <div className="pb-3 border-b border-slate-200">
+              <p className="text-slate-500 font-medium text-xs uppercase tracking-wide mb-2">Método de Impresión</p>
+              <p className="text-slate-800 font-semibold">
+                {selectedPrintingMethod === 'DTF' ? '🖨️ DTF Full Color' : selectedPrintingMethod === 'SERIGRAFIA' ? '🎨 Serigrafía 1 color' : '👕 Solo prenda'}
+              </p>
             </div>
+
+            {/* Zonas de Impresión */}
+            {selectedZones.length > 0 && (
+              <div>
+                <p className="text-slate-500 font-medium text-xs uppercase tracking-wide mb-2">Zonas de Impresión</p>
+                <div className="space-y-1">
+                  {selectedZones.map(zone => {
+                    const zoneLabels: Record<string, string> = {
+                      'frontal': '👕 Frontal',
+                      'espalda': '🔄 Espalda',
+                      'manga_izquierda': '👈 Manga Izquierda',
+                      'manga_derecha': '👉 Manga Derecha'
+                    };
+                    return (
+                      <div key={zone} className="text-slate-700">
+                        {zoneLabels[zone] || zone}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

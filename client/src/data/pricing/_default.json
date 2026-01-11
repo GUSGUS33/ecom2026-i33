@@ -14,8 +14,9 @@
   "coste_personalizacion": {
     "frontal": 0.50,
     "espalda": 0.45,
-    "mangas": 0.40
+    "manga_izquierda": 0.50,
+    "manga_derecha": 0.50
   },
-  "zonas_permitidas": ["frontal", "espalda", "mangas"],
+  "zonas_permitidas": ["frontal", "espalda", "manga_izquierda", "manga_derecha"],
   "notas": "Precios IVA incluido"
 }
