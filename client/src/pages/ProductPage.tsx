@@ -138,8 +138,8 @@ export default function ProductPage() {
 
         <div className="container mx-auto px-4 max-w-[1600px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Image Gallery */}
-            <div className="space-y-4">
+            {/* Image Gallery - Sticky on Desktop */}
+            <div className="space-y-4 lg:sticky lg:top-[120px] lg:h-fit">
               <div className="aspect-square bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm relative">
                 {product.onSale && (
                   <Badge className="absolute top-4 left-4 bg-red-500 hover:bg-red-600 z-10">Oferta</Badge>

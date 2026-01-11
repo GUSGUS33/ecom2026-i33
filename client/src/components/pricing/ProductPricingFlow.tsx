@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useProductPricing } from '../../hooks/useProductPricing';
 import { Product } from '../../../../shared/types';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -6,6 +6,7 @@ import { QuoteRequestModal } from './QuoteRequestModal';
 import { getAllPrintingMethods } from '../../data/pricing/printing-methods';
 import { getAvailablePrintingMethods } from '../../services/pricingService';
 import type { PrintingMethodId } from '../../types/printing';
+import { CollapsibleSection } from '../CollapsibleSection';
 
 // Lazy load components for better initial render performance
 const ColorSelector = lazy(() => import('./ColorSelector'));
@@ -162,9 +163,9 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
         </div>
       )}
 
-      {/* 3. Selector de Método de Impresión */}
+      {/* 3. Selector de Método de Impresión (Colapsable) */}
       {hasSelectedColor && totalQuantity > 0 && availablePrintingMethods.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 delay-75">
+        <CollapsibleSection title="Ajustes de impresión" defaultOpen={true}>
           <Suspense fallback={<Skeleton className="h-20 w-full rounded-xl" />}>
             <PrintingMethodSelector
               activeMethods={availablePrintingMethods}
@@ -174,12 +175,12 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
               availableMethods={allPrintingMethods}
             />
           </Suspense>
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* 4. Selector de Zonas de Personalización */}
       {hasSelectedColor && totalQuantity > 0 && pricingData && (
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500 delay-100">
+        <CollapsibleSection title="Ajustes de impresión" defaultOpen={true}>
           <Suspense fallback={<Skeleton className="h-40 w-full rounded-xl" />}>
             <ZoneSelector
               availableZones={(
@@ -203,7 +204,7 @@ const ProductPricingFlow: React.FC<ProductPricingFlowProps> = React.memo(({ prod
               disabled={!hasSelectedColor}
             />
           </Suspense>
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* 5. Calculadora de Precios */}
