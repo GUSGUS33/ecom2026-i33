@@ -1,0 +1,8 @@
+{
+  "query": "\nINSERT INTO public.wishlist_impacto33 (user_id, product_id) VALUES\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 2),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 4),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5)\nON CONFLICT (user_id, product_id) DO NOTHING;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 37cDbv17LVkpZav.root --database eEvAmP2iDEDy9MFJX66ZKb --execute \nINSERT INTO public.wishlist_impacto33 (user_id, product_id) VALUES\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 2),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 4),\n('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5)\nON CONFLICT (user_id, product_id) DO NOTHING;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 2: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 7 column 12 near \"CONFLICT (user_id, product_id) DO NOTHING\""
+  ]
+}

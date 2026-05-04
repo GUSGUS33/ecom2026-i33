@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Insertar favoritos de muestra para el usuario\nINSERT INTO wishlist (user_id, product_id, product_slug, created_at)\nVALUES \n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1234, 'body-de-bebe-de-manga-larga-96-algodon-personalizable', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5678, 'peto-deportivo-unisex-poliester-mesh', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 9012, 'bolsa-tela-personalizada-algodon', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3456, 'llavero-personalizado-metal', NOW())\nON CONFLICT DO NOTHING;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 37cDbv17LVkpZav.root --database eEvAmP2iDEDy9MFJX66ZKb --execute \n-- Insertar favoritos de muestra para el usuario\nINSERT INTO wishlist (user_id, product_id, product_slug, created_at)\nVALUES \n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1234, 'body-de-bebe-de-manga-larga-96-algodon-personalizable', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5678, 'peto-deportivo-unisex-poliester-mesh', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 9012, 'bolsa-tela-personalizada-algodon', NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3456, 'llavero-personalizado-metal', NOW())\nON CONFLICT DO NOTHING;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 3: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 7 column 12 near \"CONFLICT DO NOTHING\""
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "query": "\nCREATE TABLE IF NOT EXISTS wishlist_impacto33 (\n  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,\n  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\n  product_id INT NOT NULL,\n  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE(user_id, product_id)\n);\n\nCREATE INDEX idx_wishlist_user_id ON wishlist_impacto33(user_id);\nCREATE INDEX idx_wishlist_product_id ON wishlist_impacto33(product_id);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 37cDbv17LVkpZav.root --database eEvAmP2iDEDy9MFJX66ZKb --execute \nCREATE TABLE IF NOT EXISTS wishlist_impacto33 (\n  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,\n  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,\n  product_id INT NOT NULL,\n  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE(user_id, product_id)\n);\n\nCREATE INDEX idx_wishlist_user_id ON wishlist_impacto33(user_id);\nCREATE INDEX idx_wishlist_product_id ON wishlist_impacto33(product_id);\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 2: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 2 column 53 near \"IDENTITY,",
+    "  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,",
+    "  product_id INT NOT NULL,",
+    "  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,",
+    "  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,",
+    "  UNIQUE(user_id, product_id)",
+    ")\""
+  ]
+}

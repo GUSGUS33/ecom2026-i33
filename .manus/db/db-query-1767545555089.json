@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO wishlist (userId, productId, productSlug, createdAt, updatedAt)\nVALUES \n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1234, 'body-de-bebe-de-manga-larga-96-algodon-personalizable', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5678, 'peto-deportivo-unisex-poliester-mesh', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 9012, 'bolsa-tela-personalizada-algodon', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3456, 'llavero-personalizado-metal', NOW(), NOW());\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 37cDbv17LVkpZav.root --database eEvAmP2iDEDy9MFJX66ZKb --execute \nINSERT INTO wishlist (userId, productId, productSlug, createdAt, updatedAt)\nVALUES \n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 1234, 'body-de-bebe-de-manga-larga-96-algodon-personalizable', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 5678, 'peto-deportivo-unisex-poliester-mesh', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 9012, 'bolsa-tela-personalizada-algodon', NOW(), NOW()),\n  ('8ee89d91-03f1-4516-977a-19c6b33e59bf', 3456, 'llavero-personalizado-metal', NOW(), NOW());\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 386
+}
